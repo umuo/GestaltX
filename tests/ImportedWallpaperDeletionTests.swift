@@ -53,6 +53,7 @@ import Foundation
         try await coversAndRows(root.appendingPathComponent("CoversAndRows"))
         try await reverifyAfterResigning(root.appendingPathComponent("Reverify"))
         try await fileReadRegressions(root.appendingPathComponent("FileReads"))
+        try await reviewedRemoval(root.appendingPathComponent("ReviewedRemoval"))
         try await links(root.appendingPathComponent("Links"))
         print("Imported wallpaper deletion tests passed: local-only deletion, changed device/content, exact manifests, durable failures, archived uninstall, repeated UUIDs, partial installs and symlink containment.")
     }
@@ -328,6 +329,86 @@ import Foundation
         try await store.verifyWallpaperInstallation(pack.id)
         _ = try await store.removeWallpaper(pack.id)
         try require(!fm.fileExists(atPath: target.path), "Preflight still refuses tracked empty files")
+    }
+    static func reviewedRemoval(_ storage: URL) async throws {
+        let poster = storage.appendingPathComponent("PosterBoard")
+        let provider = "Library/Application Support/PRBPosterExtensionDataStore/61/Extensions/com.apple.WallpaperKit.CollectionsPoster/descriptors/"
+        let relative = provider + UUID().uuidString
+        let target = poster.appendingPathComponent(relative)
+        try fm.createDirectory(at: target, withIntermediateDirectories: true)
+        let file = target.appendingPathComponent("Wallpaper.bin")
+        let removedFile = target.appendingPathComponent("removed.bin")
+        let addedFile = target.appendingPathComponent("system-cache.bin")
+        try Data("installed".utf8).write(to: file)
+        try Data("removed".utf8).write(to: removedFile)
+        let pack = WallpaperPack(id: UUID(), name: "Reviewed", descriptors: [],
+                                 installations: [.init(relative: relative, files: try CustomizationFiles.tree(target), committed: true)],
+                                 installedDevice: "old-signature")
+        let original = try makeImport(pack, storage: storage)
+        let manifestURL = importFolder(pack, storage: storage).appendingPathComponent("Pack.plist")
+        let unrelated = poster.appendingPathComponent(provider + UUID().uuidString + "/keep.bin")
+        try fm.createDirectory(at: unrelated.deletingLastPathComponent(), withIntermediateDirectories: true)
+        let unrelatedBytes = Data("other wallpaper".utf8)
+        try unrelatedBytes.write(to: unrelated)
+        try Data("modified".utf8).write(to: file)
+        try fm.removeItem(at: removedFile)
+        try Data().write(to: addedFile)
+        let store = CustomizationStore(storage: storage, device: "new-signature", resolver: { _ in poster })
+        try await rejects { _ = try await store.removeWallpaper(pack.id) }
+        let beforeReview = try CustomizationFiles.tree(poster)
+        var review = try await store.reviewWallpaperRemoval(pack.id)
+        let prefix = String(target.lastPathComponent.prefix(8)) + "/"
+        try require(review.added == [prefix + "system-cache.bin"] && review.changed == [prefix + "Wallpaper.bin"] && review.missing == [prefix + "removed.bin"],
+                    "Review did not accurately identify added, modified and missing files")
+        try require(review.signingChanged, "Review omitted the changed signing identity")
+        try require(try CustomizationFiles.tree(poster) == beforeReview, "Review changed system files")
+        try require(try Data(contentsOf: manifestURL) == original, "Review rewrote the installation baseline")
+        // Neither a made-up token nor another pack can authorize this deletion.
+        try await rejects { _ = try await store.removeWallpaper(pack.id, reviewedChanges: UUID()) }
+        try await rejects { _ = try await store.removeWallpaper(UUID(), reviewedChanges: review.token) }
+        review = try await store.reviewWallpaperRemoval(pack.id)
+        // All folders must be checked before the first deletion, including stage folders.
+        let stage = target.deletingLastPathComponent().appendingPathComponent(".GestaltX-stage-" + target.lastPathComponent)
+        try fm.createDirectory(at: stage, withIntermediateDirectories: false)
+        try Data("late stage".utf8).write(to: stage.appendingPathComponent("late.bin"))
+        try await rejects { _ = try await store.removeWallpaper(pack.id, reviewedChanges: review.token) }
+        try require(fm.fileExists(atPath: file.path), "A stale stage review partially removed the installation")
+        try fm.removeItem(at: stage)
+        // A used or superseded token must not become valid when the bytes return.
+        try await rejects { _ = try await store.removeWallpaper(pack.id, reviewedChanges: review.token) }
+        review = try await store.reviewWallpaperRemoval(pack.id)
+        let superseding = try await store.reviewWallpaperRemoval(pack.id)
+        try await rejects { _ = try await store.removeWallpaper(pack.id, reviewedChanges: review.token) }
+        review = superseding
+        try Data("changed again".utf8).write(to: file)
+        try await rejects { _ = try await store.removeWallpaper(pack.id, reviewedChanges: review.token) }
+        try require(fm.fileExists(atPath: addedFile.path), "Review allowed newly changed contents to be deleted")
+        review = try await store.reviewWallpaperRemoval(pack.id)
+        // Local manifest changes invalidate approval even if system contents are stable.
+        var plist = try PropertyListSerialization.propertyList(from: original, format: nil) as! [String: Any]
+        plist["futureInstallationMetadata"] = ["version": 3]
+        try PropertyListSerialization.data(fromPropertyList: plist, format: .binary, options: 0).write(to: manifestURL)
+        try await rejects { _ = try await store.removeWallpaper(pack.id, reviewedChanges: review.token) }
+        try original.write(to: manifestURL)
+        // No symlink may be traversed during review or during an approved removal.
+        let link = target.appendingPathComponent("escape")
+        try fm.createSymbolicLink(at: link, withDestinationURL: unrelated)
+        try await rejects { _ = try await store.reviewWallpaperRemoval(pack.id) }
+        try fm.removeItem(at: link)
+        review = try await store.reviewWallpaperRemoval(pack.id)
+        try fm.createSymbolicLink(at: link, withDestinationURL: unrelated)
+        try await rejects { _ = try await store.removeWallpaper(pack.id, reviewedChanges: review.token) }
+        try fm.removeItem(at: link)
+        // Archived ownership works after the import has been removed as well.
+        try await store.deleteImportedWallpaper(pack.id)
+        review = try await store.reviewWallpaperRemoval(pack.id)
+        _ = try await store.removeWallpaper(pack.id, reviewedChanges: review.token)
+        try require(!fm.fileExists(atPath: target.path), "Reviewed, changed installation remains on disk")
+        try require(try Data(contentsOf: unrelated) == unrelatedBytes, "Reviewed removal affected another wallpaper")
+        let installed = try await store.listInstalledWallpapers()
+        try require(installed.isEmpty, "Reviewed removal left stale installation records")
+        try await rejects { _ = try await store.removeWallpaper(pack.id, reviewedChanges: review.token) }
+        print("Reviewed removal passed: exact diff, unchanged review, token scope/invalidation, stage/content/manifest changes, symlinks, archived records and unrelated wallpaper preservation.")
     }
     static func links(_ storage: URL) async throws {
         let outside = storage.appendingPathComponent("Outside")

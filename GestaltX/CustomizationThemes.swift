@@ -24,6 +24,13 @@ struct WallpaperInstallation: Codable, Sendable {
     var files: [String: String]
     var committed = false
 }
+struct WallpaperRemovalReview: Sendable {
+    let token: UUID
+    let added: [String]
+    let changed: [String]
+    let missing: [String]
+    let signingChanged: Bool
+}
 struct WallpaperPack: Identifiable, Codable, Sendable {
     var id: UUID
     var name: String

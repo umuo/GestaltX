@@ -422,7 +422,7 @@
   "This adds new wallpapers without replacing your existing ones.": "既存の壁紙を置き換えずに新しい壁紙を追加します。",
   "This image could not be used. Choose another image.": "この画像は使用できません。別の画像を選択してください。",
   "This pack contains no compatible wallpapers.": "このパックには対応する壁紙がありません。",
-  "This wallpaper was changed outside GestaltX. It was not removed.": "この壁紙はGestaltX以外で変更されているため、削除しませんでした。",
+  "Wallpaper files differ from the installation record. Review Changes before removal.": "壁紙ファイルがインストール記録と異なります。削除前に「変更を確認」を選んでください。",
   "Unavailable": "利用不可",
   "Use a single line of up to 256 characters.": "256文字以内の1行のテキストを入力してください。",
   "Wallpaper Settings": "壁紙設定",
@@ -538,5 +538,13 @@
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "壁紙ファイルは削除されましたが、インストール記録の削除に失敗しました。この項目を再度削除してください。",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "壁紙ファイルは削除されましたが、ギャラリーを更新できませんでした。PosterBoard またはホーム画面を再起動してください。",
   "Could not verify wallpaper files before removal.": "削除前の壁紙ファイルの検証に失敗しました。",
-  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "読み取り中にファイルが変更されました：%@。想定 %lld バイト、読み取り %lld バイト。"
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "読み取り中にファイルが変更されました：%@。想定 %lld バイト、読み取り %lld バイト。",
+  "Wallpaper changed since review. Review the changes again.": "確認後に壁紙が変更されました。変更内容を再確認してください。",
+  "Review the cover, ID and file list. Confirming removes the current contents of only this recorded installation.": "表紙、ID、ファイル一覧を確認してください。確定すると、このインストール記録のディレクトリ内の現在の内容だけが削除されます。",
+  "The app signature or device binding also differs from the installation record.": "アプリの署名またはデバイスの紐付けもインストール記録と異なります。",
+  "Added Files": "追加ファイル",
+  "Modified Files": "変更ファイル",
+  "Missing Files": "不足ファイル",
+  "I reviewed the changes and want to remove only this copy.": "変更を確認し、このコピーだけを削除します。",
+  "Remove This Reviewed Copy": "確認済みのコピーを削除"
 }

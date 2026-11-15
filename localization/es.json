@@ -406,7 +406,7 @@
   "The original files could not be backed up.": "No se pudieron guardar los archivos originales.",
   "This adds new wallpapers without replacing your existing ones.": "Se añadirán fondos nuevos y se conservarán los existentes.",
   "This pack contains no compatible wallpapers.": "Este paquete no contiene fondos compatibles.",
-  "This wallpaper was changed outside GestaltX. It was not removed.": "El fondo se modificó fuera de GestaltX y no se ha eliminado.",
+  "Wallpaper files differ from the installation record. Review Changes before removal.": "Los archivos del fondo difieren del registro de instalación. Revisa los cambios antes de eliminarlos.",
   "Wallpaper added. Open the wallpaper gallery to select it. If it does not appear, restart PosterBoard or respring.": "Fondo añadido. Selecciónalo en la galería. Si no aparece, reinicia PosterBoard o haz respring.",
   "Wallpaper Settings": "Ajustes de fondo de pantalla",
   "Importing…": "Importando…",
@@ -538,5 +538,13 @@
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "Los archivos se eliminaron, pero falló la limpieza del registro. Intenta eliminar esta entrada de nuevo.",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "Los archivos se eliminaron, pero la galería no se actualizó. Reinicia PosterBoard o realiza un respring.",
   "Could not verify wallpaper files before removal.": "No se pudieron verificar los archivos antes de eliminarlos.",
-  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "El archivo cambió durante la lectura: %@. Se esperaban %lld bytes y se leyeron %lld bytes."
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "El archivo cambió durante la lectura: %@. Se esperaban %lld bytes y se leyeron %lld bytes.",
+  "Wallpaper changed since review. Review the changes again.": "El fondo cambió tras la revisión. Revisa los cambios de nuevo.",
+  "Review the cover, ID and file list. Confirming removes the current contents of only this recorded installation.": "Revisa la portada, el ID y los archivos. Al confirmar, se eliminará solo el contenido actual de esta instalación registrada.",
+  "The app signature or device binding also differs from the installation record.": "La firma de la app o la vinculación del dispositivo también difiere del registro de instalación.",
+  "Added Files": "Archivos añadidos",
+  "Modified Files": "Archivos modificados",
+  "Missing Files": "Archivos ausentes",
+  "I reviewed the changes and want to remove only this copy.": "He revisado los cambios y quiero eliminar solo esta copia.",
+  "Remove This Reviewed Copy": "Eliminar esta copia revisada"
 }

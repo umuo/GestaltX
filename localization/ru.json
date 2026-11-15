@@ -406,7 +406,7 @@
   "The original files could not be backed up.": "Не удалось сохранить исходные файлы.",
   "This adds new wallpapers without replacing your existing ones.": "Будут добавлены новые обои с сохранением существующих.",
   "This pack contains no compatible wallpapers.": "В наборе нет совместимых обоев.",
-  "This wallpaper was changed outside GestaltX. It was not removed.": "Обои изменены вне GestaltX и не были удалены.",
+  "Wallpaper files differ from the installation record. Review Changes before removal.": "Файлы обоев отличаются от записи установки. Проверьте изменения перед удалением.",
   "Wallpaper added. Open the wallpaper gallery to select it. If it does not appear, restart PosterBoard or respring.": "Обои добавлены. Выберите их в галерее. Если они не появились, перезапустите PosterBoard или SpringBoard.",
   "Wallpaper Settings": "Настройки обоев",
   "Importing…": "Импорт…",
@@ -538,5 +538,13 @@
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "Файлы обоев удалены, но очистка записей установки не удалась. Попробуйте удалить эту запись ещё раз.",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "Файлы обоев удалены, но галерея не обновилась. Перезапустите PosterBoard или выполните респринг.",
   "Could not verify wallpaper files before removal.": "Не удалось проверить файлы обоев перед удалением.",
-  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "Файл изменился при чтении: %@. Ожидалось %lld байт, прочитано %lld байт."
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "Файл изменился при чтении: %@. Ожидалось %lld байт, прочитано %lld байт.",
+  "Wallpaper changed since review. Review the changes again.": "Обои изменились после проверки. Проверьте изменения снова.",
+  "Review the cover, ID and file list. Confirming removes the current contents of only this recorded installation.": "Проверьте обложку, ID и список файлов. Подтверждение удалит только текущее содержимое каталога этой зарегистрированной установки.",
+  "The app signature or device binding also differs from the installation record.": "Подпись приложения или привязка устройства также отличается от записи установки.",
+  "Added Files": "Добавленные файлы",
+  "Modified Files": "Изменённые файлы",
+  "Missing Files": "Отсутствующие файлы",
+  "I reviewed the changes and want to remove only this copy.": "Я проверил изменения и хочу удалить только эту копию.",
+  "Remove This Reviewed Copy": "Удалить проверенную копию"
 }

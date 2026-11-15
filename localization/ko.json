@@ -406,7 +406,7 @@
   "The original files could not be backed up.": "원본 파일을 백업하지 못했습니다.",
   "This adds new wallpapers without replacing your existing ones.": "기존 배경화면을 유지하고 새 배경화면을 추가합니다.",
   "This pack contains no compatible wallpapers.": "이 팩에 호환되는 배경화면이 없습니다.",
-  "This wallpaper was changed outside GestaltX. It was not removed.": "GestaltX 외부에서 변경된 배경화면이므로 제거하지 않았습니다.",
+  "Wallpaper files differ from the installation record. Review Changes before removal.": "배경화면 파일이 설치 기록과 다릅니다. 제거 전에 변경 사항을 검토하세요.",
   "Wallpaper added. Open the wallpaper gallery to select it. If it does not appear, restart PosterBoard or respring.": "배경화면을 추가했습니다. 갤러리에서 선택하세요. 표시되지 않으면 PosterBoard를 다시 시작하거나 리스프링하세요.",
   "Wallpaper Settings": "배경화면 설정",
   "Importing…": "가져오는 중…",
@@ -538,5 +538,13 @@
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "배경화면 파일은 제거했지만 설치 기록 정리에 실패했습니다. 이 항목을 다시 제거하세요.",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "배경화면 파일은 제거했지만 갤러리를 새로 고치지 못했습니다. PosterBoard를 다시 시작하거나 리스프링하세요.",
   "Could not verify wallpaper files before removal.": "제거 전 배경화면 파일을 확인하지 못했습니다.",
-  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "읽는 동안 파일이 변경되었습니다: %@. 예상 %lld 바이트, 읽은 크기 %lld 바이트."
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "읽는 동안 파일이 변경되었습니다: %@. 예상 %lld 바이트, 읽은 크기 %lld 바이트.",
+  "Wallpaper changed since review. Review the changes again.": "검토 후 배경화면이 변경되었습니다. 변경 사항을 다시 검토하세요.",
+  "Review the cover, ID and file list. Confirming removes the current contents of only this recorded installation.": "표지, ID 및 파일 목록을 확인하세요. 확인하면 이 설치 기록에 해당하는 디렉터리의 현재 내용만 제거됩니다.",
+  "The app signature or device binding also differs from the installation record.": "앱 서명 또는 기기 연결도 설치 기록과 다릅니다.",
+  "Added Files": "추가된 파일",
+  "Modified Files": "수정된 파일",
+  "Missing Files": "누락된 파일",
+  "I reviewed the changes and want to remove only this copy.": "변경 사항을 검토했으며 이 복사본만 제거하겠습니다.",
+  "Remove This Reviewed Copy": "검토한 복사본 제거"
 }

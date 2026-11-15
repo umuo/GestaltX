@@ -2,6 +2,14 @@ from pathlib import Path
 import json
 ROOT = Path(__file__).resolve().parents[1]
 TRANSLATIONS = '''
+Wallpaper changed since review. Review the changes again.	查看后壁纸又发生了变化，请重新查看更改。
+Review the cover, ID and file list. Confirming removes the current contents of only this recorded installation.	请核对封面、编号和文件列表。确认后，仅移除此安装记录对应目录中的当前内容。
+The app signature or device binding also differs from the installation record.	App 签名或设备绑定也与安装记录不同。
+Added Files	新增文件
+Modified Files	修改文件
+Missing Files	缺失文件
+I reviewed the changes and want to remove only this copy.	我已核对更改，确认只移除此副本。
+Remove This Reviewed Copy	移除已核对的副本
 File changed while reading: %@. Expected %lld bytes, read %lld bytes.	读取时文件发生变化：%@。预期 %lld 字节，实际读取 %lld 字节。
 Could not verify wallpaper files before removal.	移除前校验壁纸文件失败。
 Could not remove wallpaper files.	删除壁纸文件失败。
@@ -78,7 +86,7 @@ The files changed. Read again before applying.	文件已变化，请重新读取
 The original files could not be backed up.	未能备份原始文件。
 This adds new wallpapers without replacing your existing ones.	将添加新壁纸，保留现有壁纸。
 This pack contains no compatible wallpapers.	此包中没有兼容的壁纸。
-This wallpaper was changed outside GestaltX. It was not removed.	壁纸已被其他方式修改，未执行移除。
+Wallpaper files differ from the installation record. Review Changes before removal.	壁纸文件与安装记录不一致，未执行移除。请先点击“查看更改”。
 Wallpaper added. Open the wallpaper gallery to select it. If it does not appear, restart PosterBoard or respring.	壁纸已添加，请打开图库选择。若未出现，可重新启动 PosterBoard 或执行注销。
 Wallpaper Settings	壁纸设置
 WAPI	WAPI

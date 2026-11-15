@@ -406,7 +406,7 @@
   "The original files could not be backed up.": "Không thể sao lưu các tệp gốc.",
   "This adds new wallpapers without replacing your existing ones.": "Thêm hình nền mới và giữ nguyên hình nền hiện có.",
   "This pack contains no compatible wallpapers.": "Gói này không chứa hình nền tương thích.",
-  "This wallpaper was changed outside GestaltX. It was not removed.": "Hình nền đã bị thay đổi bên ngoài GestaltX nên chưa được xóa.",
+  "Wallpaper files differ from the installation record. Review Changes before removal.": "Tệp hình nền khác với hồ sơ cài đặt. Hãy xem các thay đổi trước khi xóa.",
   "Wallpaper added. Open the wallpaper gallery to select it. If it does not appear, restart PosterBoard or respring.": "Đã thêm hình nền. Mở bộ sưu tập để chọn. Nếu chưa thấy, hãy khởi động lại PosterBoard hoặc respring.",
   "Wallpaper Settings": "Cài đặt hình nền",
   "Importing…": "Đang nhập…",
@@ -538,5 +538,13 @@
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "Đã xóa tệp hình nền nhưng không thể dọn bản ghi cài đặt. Hãy thử xóa mục này lần nữa.",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "Đã xóa tệp hình nền nhưng không thể làm mới thư viện. Hãy khởi động lại PosterBoard hoặc respring.",
   "Could not verify wallpaper files before removal.": "Không thể xác minh tệp hình nền trước khi xóa.",
-  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "Tệp thay đổi khi đọc: %@. Dự kiến %lld byte, đã đọc %lld byte."
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "Tệp thay đổi khi đọc: %@. Dự kiến %lld byte, đã đọc %lld byte.",
+  "Wallpaper changed since review. Review the changes again.": "Hình nền đã thay đổi sau khi xem xét. Hãy xem lại các thay đổi.",
+  "Review the cover, ID and file list. Confirming removes the current contents of only this recorded installation.": "Kiểm tra ảnh bìa, ID và danh sách tệp. Khi xác nhận, chỉ nội dung hiện tại trong thư mục của bản cài đặt được ghi nhận này sẽ bị xóa.",
+  "The app signature or device binding also differs from the installation record.": "Chữ ký ứng dụng hoặc liên kết thiết bị cũng khác với hồ sơ cài đặt.",
+  "Added Files": "Tệp đã thêm",
+  "Modified Files": "Tệp đã sửa",
+  "Missing Files": "Tệp bị thiếu",
+  "I reviewed the changes and want to remove only this copy.": "Tôi đã kiểm tra thay đổi và chỉ muốn xóa bản sao này.",
+  "Remove This Reviewed Copy": "Xóa bản sao đã kiểm tra"
 }

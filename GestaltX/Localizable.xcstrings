@@ -1,6 +1,518 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "Wallpaper changed since review. Review the changes again.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wallpaper changed since review. Review the changes again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看后壁纸又发生了变化，请重新查看更改。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El fondo cambió tras la revisión. Revisa los cambios de nuevo."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاغذدیواری پس از بررسی تغییر کرده است. تغییرات را دوباره بررسی کنید."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確認後に壁紙が変更されました。変更内容を再確認してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "검토 후 배경화면이 변경되었습니다. 변경 사항을 다시 검토하세요."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обои изменились после проверки. Проверьте изменения снова."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hình nền đã thay đổi sau khi xem xét. Hãy xem lại các thay đổi."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢視後牆紙又有變更，請重新檢視變更。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢視後桌布又發生變化，請重新檢視變更。"
+          }
+        }
+      }
+    },
+    "Review the cover, ID and file list. Confirming removes the current contents of only this recorded installation.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review the cover, ID and file list. Confirming removes the current contents of only this recorded installation."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请核对封面、编号和文件列表。确认后，仅移除此安装记录对应目录中的当前内容。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revisa la portada, el ID y los archivos. Al confirmar, se eliminará solo el contenido actual de esta instalación registrada."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصویر جلد، شناسه و فهرست پرونده‌ها را بررسی کنید. با تأیید، فقط محتوای فعلی پوشهٔ همین نصب ثبت‌شده حذف می‌شود."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "表紙、ID、ファイル一覧を確認してください。確定すると、このインストール記録のディレクトリ内の現在の内容だけが削除されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "표지, ID 및 파일 목록을 확인하세요. 확인하면 이 설치 기록에 해당하는 디렉터리의 현재 내용만 제거됩니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверьте обложку, ID и список файлов. Подтверждение удалит только текущее содержимое каталога этой зарегистрированной установки."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kiểm tra ảnh bìa, ID và danh sách tệp. Khi xác nhận, chỉ nội dung hiện tại trong thư mục của bản cài đặt được ghi nhận này sẽ bị xóa."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請核對封面、編號及檔案清單。確認後，只會移除此安裝記錄對應目錄內的目前內容。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請核對封面、編號及檔案清單。確認後，僅移除此安裝記錄對應目錄中的目前內容。"
+          }
+        }
+      }
+    },
+    "The app signature or device binding also differs from the installation record.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The app signature or device binding also differs from the installation record."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App 签名或设备绑定也与安装记录不同。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La firma de la app o la vinculación del dispositivo también difiere del registro de instalación."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "امضای برنامه یا اتصال دستگاه نیز با سابقهٔ نصب تفاوت دارد."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アプリの署名またはデバイスの紐付けもインストール記録と異なります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 서명 또는 기기 연결도 설치 기록과 다릅니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подпись приложения или привязка устройства также отличается от записи установки."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chữ ký ứng dụng hoặc liên kết thiết bị cũng khác với hồ sơ cài đặt."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App 簽署或裝置綁定亦與安裝記錄不同。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App 簽章或裝置綁定也與安裝記錄不同。"
+          }
+        }
+      }
+    },
+    "Added Files": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Added Files"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增文件"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archivos añadidos"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پرونده‌های افزوده"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "追加ファイル"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "추가된 파일"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавленные файлы"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tệp đã thêm"
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增檔案"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增檔案"
+          }
+        }
+      }
+    },
+    "Modified Files": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modified Files"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修改文件"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archivos modificados"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پرونده‌های تغییریافته"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "変更ファイル"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "수정된 파일"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменённые файлы"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tệp đã sửa"
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修改檔案"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修改檔案"
+          }
+        }
+      }
+    },
+    "Missing Files": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missing Files"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "缺失文件"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archivos ausentes"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پرونده‌های مفقود"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不足ファイル"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "누락된 파일"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отсутствующие файлы"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tệp bị thiếu"
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "遺失檔案"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "遺失檔案"
+          }
+        }
+      }
+    },
+    "I reviewed the changes and want to remove only this copy.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I reviewed the changes and want to remove only this copy."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我已核对更改，确认只移除此副本。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "He revisado los cambios y quiero eliminar solo esta copia."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغییرات را بررسی کردم و فقط می‌خواهم همین نسخه حذف شود."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "変更を確認し、このコピーだけを削除します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "변경 사항을 검토했으며 이 복사본만 제거하겠습니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Я проверил изменения и хочу удалить только эту копию."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tôi đã kiểm tra thay đổi và chỉ muốn xóa bản sao này."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我已核對變更，確認只移除此副本。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我已核對變更，確認僅移除此副本。"
+          }
+        }
+      }
+    },
+    "Remove This Reviewed Copy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove This Reviewed Copy"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除已核对的副本"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar esta copia revisada"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف همین نسخهٔ بررسی‌شده"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確認済みのコピーを削除"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "검토한 복사본 제거"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить проверенную копию"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa bản sao đã kiểm tra"
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除已核對的副本"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除已核對的副本"
+          }
+        }
+      }
+    },
     "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": {
       "localizations": {
         "en": {
@@ -4865,66 +5377,66 @@
         }
       }
     },
-    "This wallpaper was changed outside GestaltX. It was not removed.": {
+    "Wallpaper files differ from the installation record. Review Changes before removal.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This wallpaper was changed outside GestaltX. It was not removed."
+            "value": "Wallpaper files differ from the installation record. Review Changes before removal."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "壁纸已被其他方式修改，未执行移除。"
+            "value": "壁纸文件与安装记录不一致，未执行移除。请先点击“查看更改”。"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "El fondo se modificó fuera de GestaltX y no se ha eliminado."
+            "value": "Los archivos del fondo difieren del registro de instalación. Revisa los cambios antes de eliminarlos."
           }
         },
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "این تصویر زمینه خارج از GestaltX تغییر کرده و حذف نشده است."
+            "value": "پرونده‌های کاغذدیواری با سابقهٔ نصب تفاوت دارند. پیش از حذف، تغییرات را بررسی کنید."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "この壁紙はGestaltX以外で変更されているため、削除しませんでした。"
+            "value": "壁紙ファイルがインストール記録と異なります。削除前に「変更を確認」を選んでください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "GestaltX 외부에서 변경된 배경화면이므로 제거하지 않았습니다."
+            "value": "배경화면 파일이 설치 기록과 다릅니다. 제거 전에 변경 사항을 검토하세요."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Обои изменены вне GestaltX и не были удалены."
+            "value": "Файлы обоев отличаются от записи установки. Проверьте изменения перед удалением."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hình nền đã bị thay đổi bên ngoài GestaltX nên chưa được xóa."
+            "value": "Tệp hình nền khác với hồ sơ cài đặt. Hãy xem các thay đổi trước khi xóa."
           }
         },
         "zh-Hant-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "背景圖片已在 GestaltX 之外變更，因此未移除。"
+            "value": "牆紙檔案與安裝記錄不一致，尚未移除。請先按「檢視變更」。"
           }
         },
         "zh-Hant-TW": {
           "stringUnit": {
             "state": "translated",
-            "value": "背景圖片已在 GestaltX 之外變更，因此未移除。"
+            "value": "桌布檔案與安裝記錄不一致，尚未移除。請先點選「檢視變更」。"
           }
         }
       }

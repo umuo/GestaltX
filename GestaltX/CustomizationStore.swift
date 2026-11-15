@@ -3,6 +3,16 @@ import Foundation
 
 actor CustomizationStore {
     private(set) var wallpaperRemovalRefreshWarning: String?
+    private struct FolderSnapshot: Equatable {
+        let exists: Bool
+        let files: [String: String]
+    }
+    private struct ReviewedRemoval {
+        let packID: UUID
+        let sourceDigest: String
+        let folders: [String: FolderSnapshot]
+    }
+    private var removalReviews: [UUID: ReviewedRemoval] = [:]
     private let storage: URL
     private let device: String
     private let resolver: (@Sendable (String) throws -> URL)?
@@ -207,7 +217,7 @@ actor CustomizationStore {
             let actual = try CustomizationFiles.tree(url)
             guard actual.allSatisfy({ entry.files[$0.key] == $0.value }),
                   !entry.committed || actual == entry.files else {
-                throw CustomizationFailure("This wallpaper was changed outside GestaltX. It was not removed.")
+                throw CustomizationFailure("Wallpaper files differ from the installation record. Review Changes before removal.")
             }
             try fm.removeItem(at: url)
             guard !fm.fileExists(atPath: url.path) else {
@@ -302,7 +312,7 @@ actor CustomizationStore {
                     for url in [try installationURL(entry.relative, root: root), try stageURL(entry.relative, root: root)] {
                         guard fm.fileExists(atPath: url.path) else { continue }
                         guard try CustomizationFiles.tree(url) == entry.files else {
-                            throw CustomizationFailure("This wallpaper was changed outside GestaltX. It was not removed.")
+                            throw CustomizationFailure("Wallpaper files differ from the installation record. Review Changes before removal.")
                         }
                         matched = true
                     }
@@ -338,8 +348,62 @@ actor CustomizationStore {
             .replace(changes, expected: expected)
         log("Wallpapers: verified tracked system contents and refreshed the local installation binding; no system wallpaper was changed.")
     }
-    func removeWallpaper(_ id: UUID) throws -> [WallpaperPack] {
+    private func removalSources(_ id: UUID) throws -> [Data] {
+        var sources = try installationRecords(id)
+        let url = try CustomizationFiles.checked("Wallpapers/\(id.uuidString)/Pack.plist", in: storage, missing: true)
+        if fm.fileExists(atPath: url.path) { sources.append(try CustomizationFiles.read(url)) }
+        return sources
+    }
+    private func sourceDigest(_ sources: [Data]) -> String {
+        CustomizationFiles.digest(Data(sources.map { CustomizationFiles.digest($0) }.joined(separator: "|").utf8))
+    }
+    private func removalFolders(_ entry: WallpaperInstallation, root: URL) throws -> [(String, URL)] {
+        [(entry.relative, try installationURL(entry.relative, root: root)),
+         (entry.relative + "#stage", try stageURL(entry.relative, root: root))]
+    }
+    func reviewWallpaperRemoval(_ id: UUID) throws -> WallpaperRemovalReview {
+        let sources = try removalSources(id)
+        let packs = try sources.map { try decodePack($0, id: id) }
+        guard packs.contains(where: \.isApplied) else { throw CocoaError(.fileReadNoSuchFile) }
+        var folders: [String: FolderSnapshot] = [:]
+        var added = Set<String>(), changed = Set<String>(), missing = Set<String>()
+        try access("com.apple.PosterBoard") { root in
+            for pack in packs {
+                for entry in pack.installations {
+                    for (key, url) in try removalFolders(entry, root: root) {
+                        let exists = fm.fileExists(atPath: url.path)
+                        let files = exists ? try CustomizationFiles.tree(url) : [:]
+                        folders[key] = .init(exists: exists, files: files)
+                        // Absent staging folders are normal after a committed install.
+                        if key.hasSuffix("#stage") && !exists { continue }
+                        let label = String(URL(fileURLWithPath: entry.relative).lastPathComponent.prefix(8)) + (key.hasSuffix("#stage") ? " (stage)/" : "/")
+                        for file in files.keys where entry.files[file] == nil { added.insert(label + file) }
+                        for file in entry.files.keys {
+                            if files[file] == nil { missing.insert(label + file) }
+                            else if files[file] != entry.files[file] { changed.insert(label + file) }
+                        }
+                    }
+                }
+            }
+        }
+        let token = UUID()
+        // Only the actor retains the authority-bearing snapshot; the UI receives
+        // a one-use token and a display-only diff, never arbitrary delete paths.
+        removalReviews = removalReviews.filter { $0.value.packID != id }
+        removalReviews[token] = .init(packID: id, sourceDigest: sourceDigest(sources), folders: folders)
+        return .init(token: token, added: added.sorted(), changed: changed.sorted(), missing: missing.sorted(),
+                     signingChanged: packs.contains { $0.isApplied && $0.installedDevice != device })
+    }
+    func removeWallpaper(_ id: UUID, reviewedChanges token: UUID? = nil) throws -> [WallpaperPack] {
         wallpaperRemovalRefreshWarning = nil
+        var approval: ReviewedRemoval?
+        if let token {
+            guard let saved = removalReviews.removeValue(forKey: token), saved.packID == id,
+                  saved.sourceDigest == sourceDigest(try removalSources(id)) else {
+                throw CustomizationFailure("Wallpaper changed since review. Review the changes again.")
+            }
+            approval = saved
+        }
         let directory = try CustomizationFiles.checked("Wallpapers/\(id.uuidString)", in: storage, missing: true)
         let hasImport = fm.fileExists(atPath: directory.path)
         let imported = hasImport ? try loadPack(id) : nil
@@ -348,7 +412,7 @@ actor CustomizationStore {
         guard !packs.isEmpty else { throw CocoaError(.fileReadNoSuchFile) }
         var installations: [WallpaperInstallation] = []
         for pack in packs where !pack.installations.isEmpty {
-            guard pack.installedDevice == device else {
+            guard pack.installedDevice == device || approval != nil else {
                 // A prior attempt may have removed the directories and then
                 // failed during gallery refresh. Clearing only an obsolete local
                 // record does not require adopting another device's installation.
@@ -367,7 +431,7 @@ actor CustomizationStore {
             for entry in pack.installations {
                 if let index = installations.firstIndex(where: { $0.relative == entry.relative }) {
                     guard installations[index].files == entry.files else {
-                        throw CustomizationFailure("This wallpaper was changed outside GestaltX. It was not removed.")
+                        throw CustomizationFailure("Wallpaper files differ from the installation record. Review Changes before removal.")
                     }
                     installations[index].committed = installations[index].committed || entry.committed
                 } else {
@@ -381,21 +445,41 @@ actor CustomizationStore {
                 var hadFiles = false
                 do {
                     for entry in installations {
-                        for url in [try installationURL(entry.relative, root: root), try stageURL(entry.relative, root: root)] {
-                            guard fm.fileExists(atPath: url.path) else { continue }
-                            hadFiles = true
-                            let actual = try CustomizationFiles.tree(url)
-                            guard actual.allSatisfy({ entry.files[$0.key] == $0.value }),
-                                  !entry.committed || actual == entry.files else {
-                                throw CustomizationFailure("This wallpaper was changed outside GestaltX. It was not removed.")
+                        for (key, url) in try removalFolders(entry, root: root) {
+                            let exists = fm.fileExists(atPath: url.path)
+                            let actual = exists ? try CustomizationFiles.tree(url) : [:]
+                            if let approval {
+                                guard approval.folders[key] == FolderSnapshot(exists: exists, files: actual) else {
+                                    throw CustomizationFailure("Wallpaper changed since review. Review the changes again.")
+                                }
+                            } else if exists, !(actual.allSatisfy({ entry.files[$0.key] == $0.value }) && (!entry.committed || actual == entry.files)) {
+                                throw CustomizationFailure("Wallpaper files differ from the installation record. Review Changes before removal.")
                             }
+                            hadFiles = hadFiles || exists
                         }
                     }
                 } catch {
                     throw wallpaperOperationError(L("Could not verify wallpaper files before removal."), underlying: error)
                 }
                 for entry in installations {
-                    do { try removeInstallation(entry, root: root) }
+                    do {
+                        if let approval {
+                            for (key, url) in try removalFolders(entry, root: root) {
+                                guard let snapshot = approval.folders[key] else {
+                                    throw CustomizationFailure("Wallpaper changed since review. Review the changes again.")
+                                }
+                                let exists = fm.fileExists(atPath: url.path)
+                                let actual = exists ? try CustomizationFiles.tree(url) : [:]
+                                guard snapshot == FolderSnapshot(exists: exists, files: actual) else {
+                                    throw CustomizationFailure("Wallpaper changed since review. Review the changes again.")
+                                }
+                                if exists {
+                                    try fm.removeItem(at: url)
+                                    guard !fm.fileExists(atPath: url.path) else { throw CustomizationFailure("Could not remove wallpaper files.") }
+                                }
+                            }
+                        } else { try removeInstallation(entry, root: root) }
+                    }
                     catch {
                         throw wallpaperOperationError(L("Could not remove wallpaper files."), underlying: error)
                     }

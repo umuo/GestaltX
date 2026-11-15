@@ -57,9 +57,9 @@ final class CustomizationModel: ObservableObject {
             message = L("Wallpaper added. Open the wallpaper gallery to select it. If it does not appear, restart PosterBoard or respring.")
         }
     }
-    func removeWallpaper(_ pack: WallpaperPack) async {
+    func removeWallpaper(_ pack: WallpaperPack, reviewedChanges token: UUID? = nil) async {
         await run {
-            _ = try await store.removeWallpaper(pack.id)
+            _ = try await store.removeWallpaper(pack.id, reviewedChanges: token)
             try await reloadWallpapers()
             previews.removeValue(forKey: pack.id)
             if let warning = await store.wallpaperRemovalRefreshWarning {
@@ -68,6 +68,11 @@ final class CustomizationModel: ObservableObject {
                 message = L("Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.")
             }
         }
+    }
+    func reviewRemoval(_ pack: WallpaperPack) async throws -> WallpaperRemovalReview {
+        guard !busy else { throw CancellationError() }
+        busy = true; defer { busy = false }
+        return try await store.reviewWallpaperRemoval(pack.id)
     }
     func verifyInstallation(_ pack: WallpaperPack) async -> String {
         guard !busy else { return "" }
@@ -147,6 +152,8 @@ struct WallpapersView: View {
     @State private var pendingRemove: WallpaperPack?
     @State private var previewing: WallpaperPack?
     @State private var verificationMessage: String?
+    @State private var removalReview: WallpaperRemovalReview?
+    @State private var confirmsReviewedRemoval = false
     @State private var presentationOwner = UUID()
     var body: some View {
         List {
@@ -169,7 +176,12 @@ struct WallpapersView: View {
                                 Text(String(pack.id.uuidString.prefix(8))).font(.caption.monospaced()).foregroundStyle(.secondary)
                                 if model.isInstalled(pack.id) {
                                     Label(L("Applied"), systemImage: "checkmark.circle.fill").font(.caption).foregroundStyle(.green)
-                                    Button(L("Remove from System"), role: .destructive) { verificationMessage = nil; pendingRemove = pack }
+                                    Button(L("Remove from System"), role: .destructive) {
+                                        verificationMessage = nil
+                                        removalReview = nil
+                                        confirmsReviewedRemoval = false
+                                        pendingRemove = pack
+                                    }
                                 } else if model.hasImport(pack.id) {
                                     Button(L("Apply")) { pendingApply = pack }
                                 }
@@ -233,16 +245,46 @@ struct WallpapersView: View {
                         Text(L("Only wallpapers added by this pack will be removed."))
                         Text(L("Switch to another wallpaper before removing this pack."))
                         Button(L("Verify Installation")) {
+                            removalReview = nil
+                            confirmsReviewedRemoval = false
                             Task { verificationMessage = await model.verifyInstallation(pack) }
                         }.buttonStyle(.bordered).disabled(model.busy)
                         Text(L("Verifies the recorded files after re-signing. This does not delete wallpapers."))
                             .font(.caption).foregroundStyle(.secondary)
+                        Button(L("Review Changes")) {
+                            removalReview = nil
+                            confirmsReviewedRemoval = false
+                            verificationMessage = nil
+                            Task {
+                                do { removalReview = try await model.reviewRemoval(pack) }
+                                catch { verificationMessage = error.localizedDescription }
+                            }
+                        }.buttonStyle(.bordered).disabled(model.busy)
                         if model.busy { ProgressView() }
                         if let verificationMessage { Text(verificationMessage).font(.callout).textSelection(.enabled) }
-                        Button(L("Remove from System"), role: .destructive) {
-                            pendingRemove = nil
-                            Task { await model.removeWallpaper(pack) }
-                        }.buttonStyle(.borderedProminent).tint(.red).disabled(model.busy)
+                        if let review = removalReview {
+                            Text(L("Review the cover, ID and file list. Confirming removes the current contents of only this recorded installation."))
+                                .font(.callout)
+                            if review.signingChanged {
+                                Text(L("The app signature or device binding also differs from the installation record."))
+                                    .font(.caption).foregroundStyle(.secondary)
+                            }
+                            removalFiles("Added Files", review.added)
+                            removalFiles("Modified Files", review.changed)
+                            removalFiles("Missing Files", review.missing)
+                            Toggle(L("I reviewed the changes and want to remove only this copy."), isOn: $confirmsReviewedRemoval)
+                            Button(L("Remove This Reviewed Copy"), role: .destructive) {
+                                pendingRemove = nil
+                                Task { await model.removeWallpaper(pack, reviewedChanges: review.token) }
+                            }.buttonStyle(.borderedProminent).tint(.red)
+                                .disabled(model.busy || !confirmsReviewedRemoval)
+                        }
+                        if removalReview == nil {
+                            Button(L("Remove from System"), role: .destructive) {
+                                pendingRemove = nil
+                                Task { await model.removeWallpaper(pack) }
+                            }.buttonStyle(.borderedProminent).tint(.red).disabled(model.busy)
+                        }
                     }.padding()
                 }.navigationTitle(L("Remove this wallpaper pack?"))
                     .navigationBarTitleDisplayMode(.inline)
@@ -252,6 +294,16 @@ struct WallpapersView: View {
         .alert(L("GestaltX"), isPresented: Binding(get: { model.message != nil }, set: { if !$0 { model.message = nil } })) {
             Button(L("OK"), role: .cancel) { model.message = nil }
         } message: { Text(model.message ?? "") }
+    }
+    private func removalFiles(_ title: String, _ files: [String]) -> some View {
+        DisclosureGroup {
+            ForEach(files, id: \.self) { file in
+                Text(file).font(.caption.monospaced()).frame(maxWidth: .infinity, alignment: .leading)
+                    .textSelection(.enabled)
+            }
+        } label: {
+            HStack { Text(L(title)); Spacer(); Text(String(files.count)).monospacedDigit() }
+        }
     }
     @ViewBuilder private func preview(_ pack: WallpaperPack) -> some View {
         if let data = model.previews[pack.id], let image = UIImage(data: data) {

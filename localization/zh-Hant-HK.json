@@ -406,7 +406,7 @@
   "The original files could not be backed up.": "無法備份原始檔案。",
   "This adds new wallpapers without replacing your existing ones.": "將新增背景圖片並保留現有圖片。",
   "This pack contains no compatible wallpapers.": "此套件沒有兼容的背景圖片。",
-  "This wallpaper was changed outside GestaltX. It was not removed.": "背景圖片已在 GestaltX 之外變更，因此未移除。",
+  "Wallpaper files differ from the installation record. Review Changes before removal.": "牆紙檔案與安裝記錄不一致，尚未移除。請先按「檢視變更」。",
   "Wallpaper added. Open the wallpaper gallery to select it. If it does not appear, restart PosterBoard or respring.": "已新增背景圖片，請開啟圖庫選取。若未出現，可重新啟動 PosterBoard 或執行註銷。",
   "Wallpaper Settings": "背景圖片設定",
   "Importing…": "正在匯入⋯",
@@ -538,5 +538,13 @@
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "牆紙檔案已移除，但清理安裝記錄失敗。請再次移除此項目。",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "牆紙檔案已移除，但圖庫重新整理失敗。請重新啟動 PosterBoard 或重新載入桌面。",
   "Could not verify wallpaper files before removal.": "移除前驗證牆紙檔案失敗。",
-  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "讀取時檔案發生變化：%@。預期 %lld 位元組，實際讀取 %lld 位元組。"
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "讀取時檔案發生變化：%@。預期 %lld 位元組，實際讀取 %lld 位元組。",
+  "Wallpaper changed since review. Review the changes again.": "檢視後牆紙又有變更，請重新檢視變更。",
+  "Review the cover, ID and file list. Confirming removes the current contents of only this recorded installation.": "請核對封面、編號及檔案清單。確認後，只會移除此安裝記錄對應目錄內的目前內容。",
+  "The app signature or device binding also differs from the installation record.": "App 簽署或裝置綁定亦與安裝記錄不同。",
+  "Added Files": "新增檔案",
+  "Modified Files": "修改檔案",
+  "Missing Files": "遺失檔案",
+  "I reviewed the changes and want to remove only this copy.": "我已核對變更，確認只移除此副本。",
+  "Remove This Reviewed Copy": "移除已核對的副本"
 }
