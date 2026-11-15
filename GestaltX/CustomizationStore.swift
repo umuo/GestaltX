@@ -2,6 +2,7 @@
 import Foundation
 
 actor CustomizationStore {
+    private(set) var wallpaperRemovalRefreshWarning: String?
     private let storage: URL
     private let device: String
     private let resolver: (@Sendable (String) throws -> URL)?
@@ -209,6 +210,9 @@ actor CustomizationStore {
                 throw CustomizationFailure("This wallpaper was changed outside GestaltX. It was not removed.")
             }
             try fm.removeItem(at: url)
+            guard !fm.fileExists(atPath: url.path) else {
+                throw CustomizationFailure("Could not remove wallpaper files.")
+            }
         }
     }
     func applyWallpaper(_ id: UUID) throws -> [WallpaperPack] {
@@ -335,6 +339,7 @@ actor CustomizationStore {
         log("Wallpapers: verified tracked system contents and refreshed the local installation binding; no system wallpaper was changed.")
     }
     func removeWallpaper(_ id: UUID) throws -> [WallpaperPack] {
+        wallpaperRemovalRefreshWarning = nil
         let directory = try CustomizationFiles.checked("Wallpapers/\(id.uuidString)", in: storage, missing: true)
         let hasImport = fm.fileExists(atPath: directory.path)
         let imported = hasImport ? try loadPack(id) : nil
@@ -344,7 +349,20 @@ actor CustomizationStore {
         var installations: [WallpaperInstallation] = []
         for pack in packs where !pack.installations.isEmpty {
             guard pack.installedDevice == device else {
-                throw CustomizationFailure("Installation records need verification. Use Verify Installation before removing this wallpaper.")
+                // A prior attempt may have removed the directories and then
+                // failed during gallery refresh. Clearing only an obsolete local
+                // record does not require adopting another device's installation.
+                let stillExists = try access("com.apple.PosterBoard") { root in
+                    try pack.installations.contains { entry in
+                        let target = try installationURL(entry.relative, root: root)
+                        let stage = try stageURL(entry.relative, root: root)
+                        return fm.fileExists(atPath: target.path) || fm.fileExists(atPath: stage.path)
+                    }
+                }
+                if stillExists {
+                    throw CustomizationFailure("Installation records need verification. Use Verify Installation before removing this wallpaper.")
+                }
+                continue
             }
             for entry in pack.installations {
                 if let index = installations.firstIndex(where: { $0.relative == entry.relative }) {
@@ -360,27 +378,59 @@ actor CustomizationStore {
         if !installations.isEmpty {
             try access("com.apple.PosterBoard") { root in
                 // Validate every installed folder before deleting the first one.
+                var hadFiles = false
+                do {
+                    for entry in installations {
+                        for url in [try installationURL(entry.relative, root: root), try stageURL(entry.relative, root: root)] {
+                            guard fm.fileExists(atPath: url.path) else { continue }
+                            hadFiles = true
+                            let actual = try CustomizationFiles.tree(url)
+                            guard actual.allSatisfy({ entry.files[$0.key] == $0.value }),
+                                  !entry.committed || actual == entry.files else {
+                                throw CustomizationFailure("This wallpaper was changed outside GestaltX. It was not removed.")
+                            }
+                        }
+                    }
+                } catch {
+                    throw wallpaperOperationError(L("Could not verify wallpaper files before removal."), underlying: error)
+                }
                 for entry in installations {
-                    let url = try installationURL(entry.relative, root: root)
-                    if fm.fileExists(atPath: url.path), try CustomizationFiles.tree(url) != entry.files, entry.committed {
-                        throw CustomizationFailure("This wallpaper was changed outside GestaltX. It was not removed.")
+                    do { try removeInstallation(entry, root: root) }
+                    catch {
+                        throw wallpaperOperationError(L("Could not remove wallpaper files."), underlying: error)
                     }
                 }
-                for entry in installations { try removeInstallation(entry, root: root) }
-                // Use the same gallery refresh request as installation. Keep ownership
-                // records if this fails so removal can be retried.
-                try refreshPosterBoard(root)
+                // Removing the authoritative directories and refreshing the cached
+                // gallery are separate outcomes. A refresh error must not report
+                // that verified, completed file deletion failed.
+                do { if hadFiles { try refreshPosterBoard(root) } }
+                catch {
+                    wallpaperRemovalRefreshWarning = error.localizedDescription
+                    let ns = error as NSError
+                    log("Wallpapers: tracked files removed; gallery refresh failed (\(ns.domain): \(ns.code)).")
+                }
             }
         }
-        if var pack = imported {
-            pack.installations = []
-            try savePack(pack)
+        do {
+            if var pack = imported {
+                pack.installations = []
+                try savePack(pack)
+            }
+            let recordsURL = try installationRecordsURL(id)
+            if fm.fileExists(atPath: recordsURL.path) { try fm.removeItem(at: recordsURL) }
+            if let cache = try? previewCacheURL(id), fm.fileExists(atPath: cache.path) { try? fm.removeItem(at: cache) }
+            if hasImport { try fm.removeItem(at: directory) }
+        } catch {
+            throw wallpaperOperationError(L("Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again."), underlying: error)
         }
-        let recordsURL = try installationRecordsURL(id)
-        if fm.fileExists(atPath: recordsURL.path) { try fm.removeItem(at: recordsURL) }
-        if let cache = try? previewCacheURL(id), fm.fileExists(atPath: cache.path) { try? fm.removeItem(at: cache) }
-        if hasImport { try fm.removeItem(at: directory) }
         log("Wallpapers: removed only this pack's tracked additions.")
         return try listWallpapers()
+    }
+    private func wallpaperOperationError(_ message: String, underlying: Error) -> NSError {
+        let error = underlying as NSError
+        return NSError(domain: "GestaltX.WallpaperRemoval", code: error.code, userInfo: [
+            NSLocalizedDescriptionKey: message + "\n" + error.localizedDescription + "\n(\(error.domain): \(error.code))",
+            NSUnderlyingErrorKey: underlying,
+        ])
     }
 }

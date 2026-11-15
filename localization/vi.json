@@ -533,5 +533,9 @@
   "Installation verified. You can now remove this wallpaper.": "Đã xác minh cài đặt. Bạn có thể gỡ hình nền này.",
   "Installation records need verification. Use Verify Installation before removing this wallpaper.": "Cần xác minh bản ghi cài đặt. Hãy xác minh cài đặt trước khi gỡ hình nền này.",
   "No matching installed wallpaper was found. Installation records were kept.": "Không tìm thấy hình nền đã cài phù hợp. Đã giữ lại bản ghi cài đặt.",
-  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "Xác minh các tệp đã ghi sau khi ký lại. Thao tác này không xóa hình nền."
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "Xác minh các tệp đã ghi sau khi ký lại. Thao tác này không xóa hình nền.",
+  "Could not remove wallpaper files.": "Không thể xóa tệp hình nền.",
+  "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "Đã xóa tệp hình nền nhưng không thể dọn bản ghi cài đặt. Hãy thử xóa mục này lần nữa.",
+  "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "Đã xóa tệp hình nền nhưng không thể làm mới thư viện. Hãy khởi động lại PosterBoard hoặc respring.",
+  "Could not verify wallpaper files before removal.": "Không thể xác minh tệp hình nền trước khi xóa."
 }

@@ -2,6 +2,10 @@ from pathlib import Path
 import json
 ROOT = Path(__file__).resolve().parents[1]
 TRANSLATIONS = '''
+Could not verify wallpaper files before removal.	移除前校验壁纸文件失败。
+Could not remove wallpaper files.	删除壁纸文件失败。
+Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.	壁纸文件已移除，但清理安装记录失败。请再次移除此条目。
+Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.	壁纸文件已移除，但图库刷新失败。请重新启动 PosterBoard 或执行注销。
 Verify Installation	重新验证安装
 Installation verified. You can now remove this wallpaper.	安装记录已验证，现在可以移除此壁纸。
 Installation records need verification. Use Verify Installation before removing this wallpaper.	安装记录需要重新验证。请先点击“重新验证安装”，再移除此壁纸。

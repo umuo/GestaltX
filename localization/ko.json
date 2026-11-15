@@ -533,5 +533,9 @@
   "Installation verified. You can now remove this wallpaper.": "설치 기록을 확인했습니다. 이제 이 배경화면을 제거할 수 있습니다.",
   "Installation records need verification. Use Verify Installation before removing this wallpaper.": "설치 기록을 확인해야 합니다. 배경화면을 제거하기 전에 설치 다시 확인을 누르세요.",
   "No matching installed wallpaper was found. Installation records were kept.": "일치하는 설치된 배경화면을 찾지 못했습니다. 설치 기록은 보존되었습니다.",
-  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "재서명 후 기록된 파일을 확인합니다. 배경화면을 삭제하지 않습니다."
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "재서명 후 기록된 파일을 확인합니다. 배경화면을 삭제하지 않습니다.",
+  "Could not remove wallpaper files.": "배경화면 파일을 제거하지 못했습니다.",
+  "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "배경화면 파일은 제거했지만 설치 기록 정리에 실패했습니다. 이 항목을 다시 제거하세요.",
+  "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "배경화면 파일은 제거했지만 갤러리를 새로 고치지 못했습니다. PosterBoard를 다시 시작하거나 리스프링하세요.",
+  "Could not verify wallpaper files before removal.": "제거 전 배경화면 파일을 확인하지 못했습니다."
 }

@@ -533,5 +533,9 @@
   "Installation verified. You can now remove this wallpaper.": "インストールを検証しました。この壁紙を削除できます。",
   "Installation records need verification. Use Verify Installation before removing this wallpaper.": "インストール記録の検証が必要です。削除前にインストールを再検証してください。",
   "No matching installed wallpaper was found. Installation records were kept.": "一致するインストール済み壁紙が見つかりません。記録は保持されています。",
-  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "再署名後に記録されたファイルを検証します。壁紙は削除しません。"
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "再署名後に記録されたファイルを検証します。壁紙は削除しません。",
+  "Could not remove wallpaper files.": "壁紙ファイルを削除できませんでした。",
+  "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "壁紙ファイルは削除されましたが、インストール記録の削除に失敗しました。この項目を再度削除してください。",
+  "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "壁紙ファイルは削除されましたが、ギャラリーを更新できませんでした。PosterBoard またはホーム画面を再起動してください。",
+  "Could not verify wallpaper files before removal.": "削除前の壁紙ファイルの検証に失敗しました。"
 }

@@ -1,6 +1,262 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "Could not verify wallpaper files before removal.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not verify wallpaper files before removal."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除前校验壁纸文件失败。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron verificar los archivos antes de eliminarlos."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بررسی فایل‌های تصویر پس‌زمینه پیش از حذف ناموفق بود."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "削除前の壁紙ファイルの検証に失敗しました。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "제거 전 배경화면 파일을 확인하지 못했습니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось проверить файлы обоев перед удалением."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không thể xác minh tệp hình nền trước khi xóa."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除前驗證牆紙檔案失敗。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除前驗證背景圖片檔案失敗。"
+          }
+        }
+      }
+    },
+    "Could not remove wallpaper files.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not remove wallpaper files."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除壁纸文件失败。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudieron eliminar los archivos del fondo."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف فایل‌های تصویر پس‌زمینه انجام نشد."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "壁紙ファイルを削除できませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배경화면 파일을 제거하지 못했습니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось удалить файлы обоев."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không thể xóa tệp hình nền."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除牆紙檔案失敗。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除背景圖片檔案失敗。"
+          }
+        }
+      }
+    },
+    "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "壁纸文件已移除，但清理安装记录失败。请再次移除此条目。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los archivos se eliminaron, pero falló la limpieza del registro. Intenta eliminar esta entrada de nuevo."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فایل‌های تصویر پس‌زمینه حذف شدند، اما پاک‌سازی سوابق نصب ناموفق بود. این مورد را دوباره حذف کنید."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "壁紙ファイルは削除されましたが、インストール記録の削除に失敗しました。この項目を再度削除してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배경화면 파일은 제거했지만 설치 기록 정리에 실패했습니다. 이 항목을 다시 제거하세요."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файлы обоев удалены, но очистка записей установки не удалась. Попробуйте удалить эту запись ещё раз."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã xóa tệp hình nền nhưng không thể dọn bản ghi cài đặt. Hãy thử xóa mục này lần nữa."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "牆紙檔案已移除，但清理安裝記錄失敗。請再次移除此項目。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "背景圖片檔案已移除，但清理安裝記錄失敗。請再次移除此項目。"
+          }
+        }
+      }
+    },
+    "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "壁纸文件已移除，但图库刷新失败。请重新启动 PosterBoard 或执行注销。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los archivos se eliminaron, pero la galería no se actualizó. Reinicia PosterBoard o realiza un respring."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فایل‌های تصویر پس‌زمینه حذف شدند، اما گالری به‌روز نشد. PosterBoard را دوباره راه‌اندازی کنید یا ری‌اسپرینگ انجام دهید."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "壁紙ファイルは削除されましたが、ギャラリーを更新できませんでした。PosterBoard またはホーム画面を再起動してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배경화면 파일은 제거했지만 갤러리를 새로 고치지 못했습니다. PosterBoard를 다시 시작하거나 리스프링하세요."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файлы обоев удалены, но галерея не обновилась. Перезапустите PosterBoard или выполните респринг."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã xóa tệp hình nền nhưng không thể làm mới thư viện. Hãy khởi động lại PosterBoard hoặc respring."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "牆紙檔案已移除，但圖庫重新整理失敗。請重新啟動 PosterBoard 或重新載入桌面。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "背景圖片檔案已移除，但圖庫重新整理失敗。請重新啟動 PosterBoard 或重新載入桌面。"
+          }
+        }
+      }
+    },
     "Verify Installation": {
       "localizations": {
         "en": {

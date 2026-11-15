@@ -533,5 +533,9 @@
   "Installation verified. You can now remove this wallpaper.": "安裝記錄已驗證，現在可以移除此背景圖片。",
   "Installation records need verification. Use Verify Installation before removing this wallpaper.": "安裝記錄需要重新驗證。請先點選「重新驗證安裝」，再移除此背景圖片。",
   "No matching installed wallpaper was found. Installation records were kept.": "找不到相符的已安裝背景圖片，已保留安裝記錄。",
-  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "重新簽署後核對已記錄的檔案，此操作不會刪除背景圖片。"
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "重新簽署後核對已記錄的檔案，此操作不會刪除背景圖片。",
+  "Could not remove wallpaper files.": "刪除背景圖片檔案失敗。",
+  "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "背景圖片檔案已移除，但清理安裝記錄失敗。請再次移除此項目。",
+  "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "背景圖片檔案已移除，但圖庫重新整理失敗。請重新啟動 PosterBoard 或重新載入桌面。",
+  "Could not verify wallpaper files before removal.": "移除前驗證背景圖片檔案失敗。"
 }

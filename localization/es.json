@@ -533,5 +533,9 @@
   "Installation verified. You can now remove this wallpaper.": "Instalación verificada. Ya puedes eliminar este fondo.",
   "Installation records need verification. Use Verify Installation before removing this wallpaper.": "Los registros requieren verificación. Verifica la instalación antes de eliminar este fondo.",
   "No matching installed wallpaper was found. Installation records were kept.": "No se encontró una instalación coincidente. Se conservaron los registros.",
-  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "Verifica los archivos registrados tras volver a firmar. No elimina fondos."
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "Verifica los archivos registrados tras volver a firmar. No elimina fondos.",
+  "Could not remove wallpaper files.": "No se pudieron eliminar los archivos del fondo.",
+  "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "Los archivos se eliminaron, pero falló la limpieza del registro. Intenta eliminar esta entrada de nuevo.",
+  "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "Los archivos se eliminaron, pero la galería no se actualizó. Reinicia PosterBoard o realiza un respring.",
+  "Could not verify wallpaper files before removal.": "No se pudieron verificar los archivos antes de eliminarlos."
 }

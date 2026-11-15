@@ -533,5 +533,9 @@
   "Installation verified. You can now remove this wallpaper.": "نصب تأیید شد. اکنون می‌توانید این تصویر پس‌زمینه را حذف کنید.",
   "Installation records need verification. Use Verify Installation before removing this wallpaper.": "سوابق نصب باید بررسی شوند. پیش از حذف این تصویر پس‌زمینه، نصب را بررسی کنید.",
   "No matching installed wallpaper was found. Installation records were kept.": "تصویر پس‌زمینه نصب‌شده مطابق پیدا نشد. سوابق نصب حفظ شدند.",
-  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "فایل‌های ثبت‌شده را پس از امضای دوباره بررسی می‌کند. تصاویر پس‌زمینه حذف نمی‌شوند."
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "فایل‌های ثبت‌شده را پس از امضای دوباره بررسی می‌کند. تصاویر پس‌زمینه حذف نمی‌شوند.",
+  "Could not remove wallpaper files.": "حذف فایل‌های تصویر پس‌زمینه انجام نشد.",
+  "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "فایل‌های تصویر پس‌زمینه حذف شدند، اما پاک‌سازی سوابق نصب ناموفق بود. این مورد را دوباره حذف کنید.",
+  "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "فایل‌های تصویر پس‌زمینه حذف شدند، اما گالری به‌روز نشد. PosterBoard را دوباره راه‌اندازی کنید یا ری‌اسپرینگ انجام دهید.",
+  "Could not verify wallpaper files before removal.": "بررسی فایل‌های تصویر پس‌زمینه پیش از حذف ناموفق بود."
 }

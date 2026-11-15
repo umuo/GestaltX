@@ -533,5 +533,9 @@
   "Installation verified. You can now remove this wallpaper.": "Установка проверена. Теперь можно удалить эти обои.",
   "Installation records need verification. Use Verify Installation before removing this wallpaper.": "Записи установки требуют проверки. Перед удалением обоев проверьте установку.",
   "No matching installed wallpaper was found. Installation records were kept.": "Соответствующие установленные обои не найдены. Записи сохранены.",
-  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "Проверяет записанные файлы после переподписания. Обои не удаляются."
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "Проверяет записанные файлы после переподписания. Обои не удаляются.",
+  "Could not remove wallpaper files.": "Не удалось удалить файлы обоев.",
+  "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "Файлы обоев удалены, но очистка записей установки не удалась. Попробуйте удалить эту запись ещё раз.",
+  "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "Файлы обоев удалены, но галерея не обновилась. Перезапустите PosterBoard или выполните респринг.",
+  "Could not verify wallpaper files before removal.": "Не удалось проверить файлы обоев перед удалением."
 }

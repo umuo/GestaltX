@@ -62,7 +62,11 @@ final class CustomizationModel: ObservableObject {
             _ = try await store.removeWallpaper(pack.id)
             try await reloadWallpapers()
             previews.removeValue(forKey: pack.id)
-            message = L("Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.")
+            if let warning = await store.wallpaperRemovalRefreshWarning {
+                message = L("Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.") + "\n" + warning
+            } else {
+                message = L("Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.")
+            }
         }
     }
     func verifyInstallation(_ pack: WallpaperPack) async -> String {
