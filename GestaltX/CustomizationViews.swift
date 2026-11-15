@@ -6,6 +6,7 @@ import UniformTypeIdentifiers
 @MainActor
 final class CustomizationModel: ObservableObject {
     @Published private(set) var packs: [WallpaperPack] = []
+    @Published private(set) var installedPacks: [WallpaperPack] = []
     @Published private(set) var previews: [UUID: Data] = [:]
     @Published private(set) var busy = false
     @Published private(set) var isPresenting = false
@@ -30,29 +31,41 @@ final class CustomizationModel: ObservableObject {
         for pack in packs where previews[pack.id] == nil { previews[pack.id] = try? await store.wallpaperPreview(pack.id) }
     }
     func loadWallpapers() async {
-        await run { packs = try await store.listWallpapers(); await loadPreviews() }
+        await run { try await reloadWallpapers(); await loadPreviews() }
+    }
+    private func reloadWallpapers() async throws {
+        let imported = try await store.listWallpapers()
+        let installed = try await store.listInstalledWallpapers()
+        packs = imported
+        installedPacks = installed
     }
     @discardableResult
     func importWallpaper(_ url: URL, id: UUID = UUID()) async -> Bool {
         defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
         guard !busy else { return false }
         busy = true; defer { busy = false }
-        do { packs = try await store.importWallpaper(url, id: id); await loadPreviews(); return true }
+        do { _ = try await store.importWallpaper(url, id: id); try await reloadWallpapers(); await loadPreviews(); return true }
         catch { message = error.localizedDescription; return false }
     }
     func applyWallpaper(_ pack: WallpaperPack) async {
         await run {
             packs = try await store.applyWallpaper(pack.id)
+            try await reloadWallpapers()
             message = L("Wallpaper added. Open the wallpaper gallery to select it. If it does not appear, restart PosterBoard or respring.")
         }
     }
     func removeWallpaper(_ pack: WallpaperPack) async {
-        await run { packs = try await store.removeWallpaper(pack.id); previews.removeValue(forKey: pack.id) }
+        await run {
+            _ = try await store.removeWallpaper(pack.id)
+            try await reloadWallpapers()
+            previews.removeValue(forKey: pack.id)
+            message = L("Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.")
+        }
     }
     func deleteImportedWallpaper(_ pack: WallpaperPack) async {
         await run {
             try await store.deleteImportedWallpaper(pack.id)
-            packs.removeAll { $0.id == pack.id }
+            try await reloadWallpapers()
             previews.removeValue(forKey: pack.id)
         }
     }
@@ -114,16 +127,17 @@ struct WallpapersView: View {
     @State private var showsImport = false
     @State private var pendingApply: WallpaperPack?
     @State private var pendingDelete: WallpaperPack?
+    @State private var pendingRemove: WallpaperPack?
     @State private var presentationOwner = UUID()
     var body: some View {
         List {
             Section {
                 Button { showsImport = true } label: { Label(L("Import Wallpaper"), systemImage: "square.and.arrow.down") }
             } footer: { Text(L("Import a .tendies or .zip wallpaper pack. You can also share it to GestaltX.")) }
-            if model.packs.isEmpty {
+            if model.packs.isEmpty && model.installedPacks.isEmpty {
                 Section { ContentUnavailableView(L("No Wallpapers"), systemImage: "photo.on.rectangle.angled") }
-            } else {
-                Section {
+            } else if !model.packs.isEmpty {
+                Section(L("Imported Wallpaper Packs")) {
                     ForEach(model.packs) { pack in
                         HStack(spacing: 14) {
                             preview(pack).frame(width: 70, height: 110).clipShape(RoundedRectangle(cornerRadius: 12))
@@ -142,6 +156,19 @@ struct WallpapersView: View {
                     }
                 }
             }
+            if !model.installedPacks.isEmpty {
+                Section {
+                    ForEach(model.installedPacks) { pack in
+                        HStack {
+                            Label(pack.name, systemImage: "photo.on.rectangle")
+                            Spacer()
+                            Button(L("Remove from System"), role: .destructive) { pendingRemove = pack }
+                                .buttonStyle(.borderless)
+                        }
+                    }
+                } header: { Text(L("Installed Wallpapers")) }
+                  footer: { Text(L("Includes installed wallpapers whose imported packs were deleted from GestaltX.")) }
+            }
             Section {
                 Button { model.open("com.apple.PosterBoard") } label: { Label(L("Open Wallpaper Gallery"), systemImage: "photo.on.rectangle") }
             }
@@ -151,7 +178,7 @@ struct WallpapersView: View {
         .disabled(model.busy)
         .toolbar { ToolbarItem(placement: .topBarTrailing) { if model.busy { ProgressView() } } }
         .task { await model.loadWallpapers() }
-        .onChange(of: showsImport || pendingApply != nil || pendingDelete != nil || model.message != nil, initial: true) { _, presenting in
+        .onChange(of: showsImport || pendingApply != nil || pendingDelete != nil || pendingRemove != nil || model.message != nil, initial: true) { _, presenting in
             model.setPresenting(presenting, owner: presentationOwner)
         }
         .onDisappear { if !showsImport { model.setPresenting(false, owner: presentationOwner) } }
@@ -172,6 +199,15 @@ struct WallpapersView: View {
             Button(L("Cancel"), role: .cancel) { pendingDelete = nil }
             Button(L("Delete"), role: .destructive) { if let pack = pendingDelete { Task { await model.deleteImportedWallpaper(pack) } }; pendingDelete = nil }
         } message: { Text(L("This only deletes the imported pack from GestaltX. Applied wallpapers will be kept.")) }
+        .alert(L("Remove this wallpaper pack?"), isPresented: Binding(get: { pendingRemove != nil }, set: { if !$0 { pendingRemove = nil } })) {
+            Button(L("Cancel"), role: .cancel) { pendingRemove = nil }
+            Button(L("Remove from System"), role: .destructive) {
+                if let pack = pendingRemove { Task { await model.removeWallpaper(pack) } }
+                pendingRemove = nil
+            }
+        } message: {
+            Text(verbatim: (pendingRemove?.name ?? "") + "\n\n" + L("Only wallpapers added by this pack will be removed.") + "\n" + L("Switch to another wallpaper before removing this pack."))
+        }
         .alert(L("GestaltX"), isPresented: Binding(get: { model.message != nil }, set: { if !$0 { model.message = nil } })) {
             Button(L("OK"), role: .cancel) { model.message = nil }
         } message: { Text(model.message ?? "") }

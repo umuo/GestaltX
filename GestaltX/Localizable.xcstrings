@@ -1,6 +1,390 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "Remove from System": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove from System"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从系统移除"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar del sistema"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف از سیستم"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムから削除"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템에서 제거"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить из системы"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gỡ khỏi hệ thống"
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "從系統移除"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "從系統移除"
+          }
+        }
+      }
+    },
+    "Installed Wallpapers": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installed Wallpapers"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安装到系统"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fondos instalados"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصاویر پس‌زمینه نصب‌شده"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "インストール済みの壁紙"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설치된 배경화면"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установленные обои"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hình nền đã cài đặt"
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安裝到系統"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安裝至系統"
+          }
+        }
+      }
+    },
+    "Imported Wallpaper Packs": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Imported Wallpaper Packs"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已导入的壁纸包"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paquetes de fondos importados"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بسته‌های پس‌زمینه واردشده"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "読み込み済みの壁紙パック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "가져온 배경화면 팩"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импортированные пакеты обоев"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gói hình nền đã nhập"
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已匯入的牆紙套件"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已匯入的背景圖片套件"
+          }
+        }
+      }
+    },
+    "Includes installed wallpapers whose imported packs were deleted from GestaltX.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Includes installed wallpapers whose imported packs were deleted from GestaltX."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "包含导入包已从 GestaltX 删除、但仍安装在系统中的壁纸。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Incluye fondos instalados cuyos paquetes importados se eliminaron de GestaltX."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شامل تصاویر پس‌زمینه نصب‌شده‌ای است که بسته واردشده آن‌ها از GestaltX حذف شده است."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GestaltX から読み込み済みパックを削除した後も、システムに残っている壁紙を含みます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GestaltX에서 가져온 팩을 삭제한 후에도 시스템에 설치되어 있는 배경화면을 포함합니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включает установленные обои, импортированные пакеты которых были удалены из GestaltX."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bao gồm hình nền vẫn được cài trong hệ thống sau khi gói nhập đã bị xóa khỏi GestaltX."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "包括匯入套件已從 GestaltX 刪除，但仍安裝在系統中的牆紙。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "包含匯入套件已從 GestaltX 刪除、但仍安裝在系統中的背景圖片。"
+          }
+        }
+      }
+    },
+    "Switch to another wallpaper before removing this pack.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switch to another wallpaper before removing this pack."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除此包前，请先切换到其他壁纸。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambia a otro fondo antes de eliminar este paquete."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پیش از حذف این بسته، تصویر پس‌زمینه دیگری را انتخاب کنید."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このパックを削除する前に、別の壁紙に切り替えてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 팩을 제거하기 전에 다른 배경화면으로 전환하세요."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перед удалением этого пакета переключитесь на другие обои."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chuyển sang hình nền khác trước khi gỡ gói này."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除此套件前，請先切換至其他牆紙。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除此套件前，請先切換至其他背景圖片。"
+          }
+        }
+      }
+    },
+    "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "壁纸已移除。若图库仍有显示，请重新启动 PosterBoard 或执行注销。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fondo eliminado. Si sigue en la galería, reinicia PosterBoard o realiza un respring."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصویر پس‌زمینه حذف شد. اگر همچنان در گالری نمایش داده می‌شود، PosterBoard را دوباره راه‌اندازی کنید یا ری‌اسپرینگ انجام دهید."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "壁紙を削除しました。ギャラリーに残る場合は、PosterBoard またはホーム画面を再起動してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배경화면을 제거했습니다. 갤러리에 계속 표시되면 PosterBoard를 다시 시작하거나 리스프링하세요."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обои удалены. Если они остаются в галерее, перезапустите PosterBoard или выполните респринг."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã gỡ hình nền. Nếu vẫn xuất hiện trong thư viện, hãy khởi động lại PosterBoard hoặc respring."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "牆紙已移除。如果圖庫仍有顯示，請重新啟動 PosterBoard 或重新載入桌面。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "背景圖片已移除。若圖庫仍有顯示，請重新啟動 PosterBoard 或執行重新載入桌面。"
+          }
+        }
+      }
+    },
     "Enter the notification sound's exact filename, including its extension.": {
       "localizations": {
         "en": {

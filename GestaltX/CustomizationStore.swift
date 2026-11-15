@@ -37,6 +37,32 @@ actor CustomizationStore {
             return try loadPack(id)
         }.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
+    // Include ownership records retained after the imported assets were deleted.
+    // Listing records never requires access to the system container.
+    func listInstalledWallpapers() throws -> [WallpaperPack] {
+        var byID = Dictionary(uniqueKeysWithValues: try listWallpapers().filter(\.isApplied).map { ($0.id, $0) })
+        let records = try CustomizationFiles.checked("WallpaperInstallations", in: storage, missing: true)
+        if fm.fileExists(atPath: records.path) {
+            for url in try fm.contentsOfDirectory(at: records, includingPropertiesForKeys: nil) {
+                guard url.pathExtension == "plist", let id = UUID(uuidString: url.deletingPathExtension().lastPathComponent) else { continue }
+                for data in try installationRecords(id) {
+                    let pack = try decodePack(data, id: id)
+                    guard pack.isApplied else { continue }
+                    if var current = byID[id] {
+                        let paths = Set(current.installations.map(\.relative))
+                        current.installations += pack.installations.filter { !paths.contains($0.relative) }
+                        byID[id] = current
+                    } else {
+                        byID[id] = pack
+                    }
+                }
+            }
+        }
+        return byID.values.sorted {
+            let order = $0.name.localizedStandardCompare($1.name)
+            return order == .orderedSame ? $0.id.uuidString < $1.id.uuidString : order == .orderedAscending
+        }
+    }
     private func loadPack(_ id: UUID) throws -> WallpaperPack {
         try decodePack(Data(contentsOf: manifest(id)), id: id)
     }
@@ -229,6 +255,9 @@ actor CustomizationStore {
                     }
                 }
                 for entry in installations { try removeInstallation(entry, root: root) }
+                // Use the same gallery refresh request as installation. Keep ownership
+                // records if this fails so removal can be retried.
+                try refreshPosterBoard(root)
             }
         }
         if var pack = imported {

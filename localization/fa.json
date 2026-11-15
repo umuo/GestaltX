@@ -518,5 +518,11 @@
   "Maybe Later": "بعداً",
   "Don't Ask Again": "دیگر نپرس",
   "Cannot reach the device console. Open LocalDevVPN, wait for it to connect, then try again.": "اتصال به کنسول دستگاه ممکن نیست. LocalDevVPN را باز کنید، منتظر اتصال بمانید و دوباره تلاش کنید.",
-  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "اگر همین‌جا ماند، LocalDevVPN را باز کنید و منتظر تکمیل اتصال بمانید."
+  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "اگر همین‌جا ماند، LocalDevVPN را باز کنید و منتظر تکمیل اتصال بمانید.",
+  "Remove from System": "حذف از سیستم",
+  "Installed Wallpapers": "تصاویر پس‌زمینه نصب‌شده",
+  "Imported Wallpaper Packs": "بسته‌های پس‌زمینه واردشده",
+  "Includes installed wallpapers whose imported packs were deleted from GestaltX.": "شامل تصاویر پس‌زمینه نصب‌شده‌ای است که بسته واردشده آن‌ها از GestaltX حذف شده است.",
+  "Switch to another wallpaper before removing this pack.": "پیش از حذف این بسته، تصویر پس‌زمینه دیگری را انتخاب کنید.",
+  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "تصویر پس‌زمینه حذف شد. اگر همچنان در گالری نمایش داده می‌شود، PosterBoard را دوباره راه‌اندازی کنید یا ری‌اسپرینگ انجام دهید."
 }

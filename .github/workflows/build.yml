@@ -51,6 +51,11 @@ jobs:
         with:
           xcode-version: latest-stable
 
+      - name: Test wallpaper removal
+        run: |
+          python3 tests/run_wallpaper_removal.py
+          python3 tests/LocalizationTests.py
+
       - name: Use the current build script for old tags
         # Tags made before this workflow existed have no build script.
         if: env.TAG != ''

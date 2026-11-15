@@ -518,5 +518,11 @@
   "Maybe Later": "Để sau",
   "Don't Ask Again": "Không hỏi lại",
   "Cannot reach the device console. Open LocalDevVPN, wait for it to connect, then try again.": "Không thể kết nối với bảng điều khiển thiết bị. Hãy mở LocalDevVPN, đợi kết nối rồi thử lại.",
-  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "Nếu màn hình đứng ở đây, hãy mở LocalDevVPN và đợi kết nối hoàn tất."
+  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "Nếu màn hình đứng ở đây, hãy mở LocalDevVPN và đợi kết nối hoàn tất.",
+  "Remove from System": "Gỡ khỏi hệ thống",
+  "Installed Wallpapers": "Hình nền đã cài đặt",
+  "Imported Wallpaper Packs": "Gói hình nền đã nhập",
+  "Includes installed wallpapers whose imported packs were deleted from GestaltX.": "Bao gồm hình nền vẫn được cài trong hệ thống sau khi gói nhập đã bị xóa khỏi GestaltX.",
+  "Switch to another wallpaper before removing this pack.": "Chuyển sang hình nền khác trước khi gỡ gói này.",
+  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "Đã gỡ hình nền. Nếu vẫn xuất hiện trong thư viện, hãy khởi động lại PosterBoard hoặc respring."
 }

@@ -518,5 +518,11 @@
   "Maybe Later": "나중에",
   "Don't Ask Again": "다시 묻지 않기",
   "Cannot reach the device console. Open LocalDevVPN, wait for it to connect, then try again.": "기기 콘솔에 연결할 수 없습니다. LocalDevVPN을 열고 연결될 때까지 기다린 후 다시 시도하세요.",
-  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "여기서 멈춰 있으면 LocalDevVPN을 열고 연결이 완료될 때까지 기다리세요."
+  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "여기서 멈춰 있으면 LocalDevVPN을 열고 연결이 완료될 때까지 기다리세요.",
+  "Remove from System": "시스템에서 제거",
+  "Installed Wallpapers": "설치된 배경화면",
+  "Imported Wallpaper Packs": "가져온 배경화면 팩",
+  "Includes installed wallpapers whose imported packs were deleted from GestaltX.": "GestaltX에서 가져온 팩을 삭제한 후에도 시스템에 설치되어 있는 배경화면을 포함합니다.",
+  "Switch to another wallpaper before removing this pack.": "이 팩을 제거하기 전에 다른 배경화면으로 전환하세요.",
+  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "배경화면을 제거했습니다. 갤러리에 계속 표시되면 PosterBoard를 다시 시작하거나 리스프링하세요."
 }

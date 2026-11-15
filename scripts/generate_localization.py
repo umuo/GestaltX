@@ -2,6 +2,12 @@ from pathlib import Path
 import json
 ROOT = Path(__file__).resolve().parents[1]
 TRANSLATIONS = '''
+Remove from System	从系统移除
+Installed Wallpapers	已安装到系统
+Imported Wallpaper Packs	已导入的壁纸包
+Includes installed wallpapers whose imported packs were deleted from GestaltX.	包含导入包已从 GestaltX 删除、但仍安装在系统中的壁纸。
+Switch to another wallpaper before removing this pack.	移除此包前，请先切换到其他壁纸。
+Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.	壁纸已移除。若图库仍有显示，请重新启动 PosterBoard 或执行注销。
 Enter the notification sound's exact filename, including its extension.	请输入通知铃声的完整文件名，包含扩展名。
 A file with this name already exists. Select it from the list to replace it.	同名文件已存在，请从列表中选择后替换。
 App Sound Library	App 通知音库

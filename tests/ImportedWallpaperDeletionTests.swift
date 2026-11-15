@@ -49,6 +49,7 @@ import Foundation
         }
         try await failedRecordWrite(root.appendingPathComponent("FailedRecordWrite"))
         try await repeatedImport(root.appendingPathComponent("RepeatedImport"))
+        try await refreshFailure(root.appendingPathComponent("RefreshFailure"))
         try await links(root.appendingPathComponent("Links"))
         print("Imported wallpaper deletion tests passed: local-only deletion, changed device/content, exact manifests, durable failures, archived uninstall, repeated UUIDs, partial installs and symlink containment.")
     }
@@ -62,6 +63,8 @@ import Foundation
         try await store.deleteImportedWallpaper(pack.id)
         let listed = try await store.listWallpapers()
         try require(listed.map(\.id) == [other.id], "Deleted import remains listed or another pack was removed")
+        let installed = try await store.listInstalledWallpapers()
+        try require(installed.isEmpty, "Unapplied imports appeared in the system removal list")
         try require(!fm.fileExists(atPath: importFolder(pack, storage: storage).path), "Import directory remains")
         try require(!fm.fileExists(atPath: recordsURL(pack.id, storage: storage).path), "Unapplied pack created installation records")
         try require(try Data(contentsOf: importFolder(other, storage: storage).appendingPathComponent("Pack.plist")) == otherData, "Another pack changed")
@@ -84,7 +87,11 @@ import Foundation
         try Data("unrelated wallpaper".utf8).write(to: unrelated)
         if changed { try Data("changed outside GestaltX".utf8).write(to: file) }
         let before = try CustomizationFiles.tree(poster)
+        let beforeDeletion = try await localStore(storage, device: device).listInstalledWallpapers()
+        try require(beforeDeletion.map(\.id) == [pack.id], "Applied pack missing from the system removal list")
         try await localStore(storage, device: device).deleteImportedWallpaper(pack.id)
+        let archived = try await localStore(storage, device: device).listInstalledWallpapers()
+        try require(archived.map(\.id) == [pack.id], "Deleted import cannot be found for system removal")
         try require(!fm.fileExists(atPath: importFolder(pack, storage: storage).path), "Applied import was not deleted")
         try require(try CustomizationFiles.tree(poster) == before, "Local deletion changed system wallpapers")
         let record = recordsURL(pack.id, storage: storage)
@@ -105,6 +112,11 @@ import Foundation
         try require(!fm.fileExists(atPath: target.path), "Archived uninstall requires the deleted import")
         try require(fm.fileExists(atPath: unrelated.path), "Uninstall deleted an unowned descriptor")
         try require(!fm.fileExists(atPath: record.path), "Completed uninstall left obsolete ownership")
+        let installedAfter = try await uninstaller.listInstalledWallpapers()
+        try require(installedAfter.isEmpty, "Removed wallpaper remains in the system removal list")
+        let prefs = poster.appendingPathComponent("Library/Preferences/com.apple.PosterBoard.unprotectedUserDefaults.plist")
+        let refresh = try PropertyListSerialization.propertyList(from: Data(contentsOf: prefs), format: nil) as! [String: Any]
+        try require(refresh["PBF_RESET_FILE_PROTECTIONS"] as? Bool == true, "System removal did not request a gallery refresh")
     }
     static func failedRecordWrite(_ storage: URL) async throws {
         let pack = WallpaperPack(id: UUID(), name: "Applied", descriptors: [],
@@ -138,12 +150,42 @@ import Foundation
             let pack = WallpaperPack(id: id, name: "Reimported", descriptors: [], installations: [entry], installedDevice: "original-device")
             manifests.append(try makeImport(pack, storage: storage))
             paths.append(actual)
+            let combined = try await store.listInstalledWallpapers()
+            try require(combined.count == 1 && combined[0].installations.count == paths.count, "Live and archived installations were not combined")
             try await store.deleteImportedWallpaper(id)
         }
         let saved = try PropertyListDecoder().decode([Data].self, from: Data(contentsOf: recordsURL(id, storage: storage)))
         try require(saved == manifests, "A reused pack UUID overwrote older installation records")
+        let installed = try await store.listInstalledWallpapers()
+        try require(installed.count == 1 && installed[0].installations.count == 2, "Archived snapshots were lost or shown as duplicate packs")
         _ = try await CustomizationStore(storage: storage, device: "original-device", resolver: { _ in poster }).removeWallpaper(id)
         for path in paths { try require(!fm.fileExists(atPath: path.path), "An archived or partial installation was orphaned") }
+    }
+    static func refreshFailure(_ storage: URL) async throws {
+        let poster = storage.appendingPathComponent("FakePosterBoard")
+        let relative = "Library/Application Support/PRBPosterExtensionDataStore/61/Extensions/com.apple.WallpaperKit.CollectionsPoster/descriptors/\(UUID().uuidString)"
+        let target = poster.appendingPathComponent(relative)
+        try fm.createDirectory(at: target, withIntermediateDirectories: true)
+        try Data("installed".utf8).write(to: target.appendingPathComponent("Wallpaper.bin"))
+        let pack = WallpaperPack(id: UUID(), name: "Refresh retry", descriptors: [],
+                                 installations: [.init(relative: relative, files: try CustomizationFiles.tree(target), committed: true)],
+                                 installedDevice: "original-device")
+        _ = try makeImport(pack, storage: storage)
+        let store = CustomizationStore(storage: storage, device: "original-device", resolver: { _ in poster })
+        try await store.deleteImportedWallpaper(pack.id)
+        let prefs = poster.appendingPathComponent("Library/Preferences/com.apple.PosterBoard.unprotectedUserDefaults.plist")
+        try fm.createDirectory(at: prefs.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try Data("invalid plist".utf8).write(to: prefs)
+        try await rejects { _ = try await store.removeWallpaper(pack.id) }
+        let retryable = try await store.listInstalledWallpapers()
+        try require(retryable.map(\.id) == [pack.id], "Refresh failure lost the removal entry")
+        let original = try PropertyListSerialization.data(fromPropertyList: ["unrelated": "keep"], format: .binary, options: 0)
+        try original.write(to: prefs)
+        _ = try await store.removeWallpaper(pack.id)
+        let removed = try await store.listInstalledWallpapers()
+        try require(removed.isEmpty, "Refresh retry did not complete removal")
+        let merged = try PropertyListSerialization.propertyList(from: Data(contentsOf: prefs), format: nil) as! [String: Any]
+        try require(merged["unrelated"] as? String == "keep", "Gallery refresh replaced unrelated preferences")
     }
     static func links(_ storage: URL) async throws {
         let outside = storage.appendingPathComponent("Outside")
