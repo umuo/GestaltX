@@ -1,6 +1,70 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File changed while reading: %@. Expected %lld bytes, read %lld bytes."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读取时文件发生变化：%@。预期 %lld 字节，实际读取 %lld 字节。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El archivo cambió durante la lectura: %@. Se esperaban %lld bytes y se leyeron %lld bytes."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فایل هنگام خواندن تغییر کرد: %@. اندازه مورد انتظار %lld بایت، مقدار خوانده‌شده %lld بایت."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "読み取り中にファイルが変更されました：%@。想定 %lld バイト、読み取り %lld バイト。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "읽는 동안 파일이 변경되었습니다: %@. 예상 %lld 바이트, 읽은 크기 %lld 바이트."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файл изменился при чтении: %@. Ожидалось %lld байт, прочитано %lld байт."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tệp thay đổi khi đọc: %@. Dự kiến %lld byte, đã đọc %lld byte."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讀取時檔案發生變化：%@。預期 %lld 位元組，實際讀取 %lld 位元組。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讀取時檔案發生變化：%@。預期 %lld 位元組，實際讀取 %lld 位元組。"
+          }
+        }
+      }
+    },
     "Could not verify wallpaper files before removal.": {
       "localizations": {
         "en": {

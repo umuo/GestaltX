@@ -537,5 +537,6 @@
   "Could not remove wallpaper files.": "Не удалось удалить файлы обоев.",
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "Файлы обоев удалены, но очистка записей установки не удалась. Попробуйте удалить эту запись ещё раз.",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "Файлы обоев удалены, но галерея не обновилась. Перезапустите PosterBoard или выполните респринг.",
-  "Could not verify wallpaper files before removal.": "Не удалось проверить файлы обоев перед удалением."
+  "Could not verify wallpaper files before removal.": "Не удалось проверить файлы обоев перед удалением.",
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "Файл изменился при чтении: %@. Ожидалось %lld байт, прочитано %lld байт."
 }

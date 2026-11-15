@@ -537,5 +537,6 @@
   "Could not remove wallpaper files.": "Không thể xóa tệp hình nền.",
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "Đã xóa tệp hình nền nhưng không thể dọn bản ghi cài đặt. Hãy thử xóa mục này lần nữa.",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "Đã xóa tệp hình nền nhưng không thể làm mới thư viện. Hãy khởi động lại PosterBoard hoặc respring.",
-  "Could not verify wallpaper files before removal.": "Không thể xác minh tệp hình nền trước khi xóa."
+  "Could not verify wallpaper files before removal.": "Không thể xác minh tệp hình nền trước khi xóa.",
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "Tệp thay đổi khi đọc: %@. Dự kiến %lld byte, đã đọc %lld byte."
 }

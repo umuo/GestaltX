@@ -537,5 +537,6 @@
   "Could not remove wallpaper files.": "刪除牆紙檔案失敗。",
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "牆紙檔案已移除，但清理安裝記錄失敗。請再次移除此項目。",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "牆紙檔案已移除，但圖庫重新整理失敗。請重新啟動 PosterBoard 或重新載入桌面。",
-  "Could not verify wallpaper files before removal.": "移除前驗證牆紙檔案失敗。"
+  "Could not verify wallpaper files before removal.": "移除前驗證牆紙檔案失敗。",
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "讀取時檔案發生變化：%@。預期 %lld 位元組，實際讀取 %lld 位元組。"
 }

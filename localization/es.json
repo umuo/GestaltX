@@ -537,5 +537,6 @@
   "Could not remove wallpaper files.": "No se pudieron eliminar los archivos del fondo.",
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "Los archivos se eliminaron, pero falló la limpieza del registro. Intenta eliminar esta entrada de nuevo.",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "Los archivos se eliminaron, pero la galería no se actualizó. Reinicia PosterBoard o realiza un respring.",
-  "Could not verify wallpaper files before removal.": "No se pudieron verificar los archivos antes de eliminarlos."
+  "Could not verify wallpaper files before removal.": "No se pudieron verificar los archivos antes de eliminarlos.",
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "El archivo cambió durante la lectura: %@. Se esperaban %lld bytes y se leyeron %lld bytes."
 }

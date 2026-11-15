@@ -537,5 +537,6 @@
   "Could not remove wallpaper files.": "壁紙ファイルを削除できませんでした。",
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "壁紙ファイルは削除されましたが、インストール記録の削除に失敗しました。この項目を再度削除してください。",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "壁紙ファイルは削除されましたが、ギャラリーを更新できませんでした。PosterBoard またはホーム画面を再起動してください。",
-  "Could not verify wallpaper files before removal.": "削除前の壁紙ファイルの検証に失敗しました。"
+  "Could not verify wallpaper files before removal.": "削除前の壁紙ファイルの検証に失敗しました。",
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "読み取り中にファイルが変更されました：%@。想定 %lld バイト、読み取り %lld バイト。"
 }

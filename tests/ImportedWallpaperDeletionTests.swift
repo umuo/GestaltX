@@ -52,6 +52,7 @@ import Foundation
         try await refreshFailure(root.appendingPathComponent("RefreshFailure"))
         try await coversAndRows(root.appendingPathComponent("CoversAndRows"))
         try await reverifyAfterResigning(root.appendingPathComponent("Reverify"))
+        try await fileReadRegressions(root.appendingPathComponent("FileReads"))
         try await links(root.appendingPathComponent("Links"))
         print("Imported wallpaper deletion tests passed: local-only deletion, changed device/content, exact manifests, durable failures, archived uninstall, repeated UUIDs, partial installs and symlink containment.")
     }
@@ -287,6 +288,46 @@ import Foundation
         _ = try await current.removeWallpaper(pack.id)
         let staleRecords = try await current.listInstalledWallpapers()
         try require(staleRecords.isEmpty, "A stale cross-signature record with no system files could not be cleared")
+    }
+    static func fileReadRegressions(_ storage: URL) async throws {
+        try fm.createDirectory(at: storage, withIntermediateDirectories: true)
+        let empty = storage.appendingPathComponent("empty-marker")
+        try Data().write(to: empty)
+        try require(try CustomizationFiles.read(empty).isEmpty, "A valid empty file was reported as changed")
+        let hashes = try CustomizationFiles.tree(storage)
+        try require(hashes["empty-marker"] == CustomizationFiles.digest(Data()), "Empty files cannot be hashed during preflight")
+        let payload = Data(repeating: 73, count: 2 * 1024 * 1024 + 13)
+        let file = storage.appendingPathComponent("large.bin")
+        try payload.write(to: file)
+        _ = try file.resourceValues(forKeys: [.fileSizeKey])
+        let updated = payload + Data([3, 4, 5])
+        try updated.write(to: file)
+        try require(try CustomizationFiles.read(file) == updated, "Cached URL metadata affected a stable file read")
+        var pieces: [Data?] = [Data([1]), Data([2, 3]), Data([4]), nil]
+        let partial = try CustomizationFiles.readChunks(limit: 4) { requested in
+            try require(requested > 0 && requested <= 1024 * 1024, "Unbounded file read requested")
+            return pieces.removeFirst()
+        }
+        try require(partial == Data([1, 2, 3, 4]), "A short read was mistaken for EOF")
+        try await rejects {
+            _ = try CustomizationFiles.readChunks(limit: 2) { _ in Data([1, 2, 3]) }
+        }
+        let link = storage.appendingPathComponent("link")
+        try fm.createSymbolicLink(at: link, withDestinationURL: file)
+        try await rejects { _ = try CustomizationFiles.read(link) }
+        // A real tracked installation with an empty marker must verify and uninstall.
+        let poster = storage.appendingPathComponent("PosterBoard")
+        let relative = "Library/Application Support/PRBPosterExtensionDataStore/61/Extensions/com.apple.WallpaperKit.CollectionsPoster/descriptors/\(UUID().uuidString)"
+        let target = poster.appendingPathComponent(relative)
+        try fm.createDirectory(at: target, withIntermediateDirectories: true)
+        try Data().write(to: target.appendingPathComponent("empty-marker"))
+        let pack = WallpaperPack(id: UUID(), name: "Empty marker", descriptors: [],
+                                 installations: [.init(relative: relative, files: try CustomizationFiles.tree(target), committed: true)], installedDevice: "original-device")
+        _ = try makeImport(pack, storage: storage)
+        let store = CustomizationStore(storage: storage, device: "original-device", resolver: { _ in poster })
+        try await store.verifyWallpaperInstallation(pack.id)
+        _ = try await store.removeWallpaper(pack.id)
+        try require(!fm.fileExists(atPath: target.path), "Preflight still refuses tracked empty files")
     }
     static func links(_ storage: URL) async throws {
         let outside = storage.appendingPathComponent("Outside")

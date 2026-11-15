@@ -537,5 +537,6 @@
   "Could not remove wallpaper files.": "حذف فایل‌های تصویر پس‌زمینه انجام نشد.",
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "فایل‌های تصویر پس‌زمینه حذف شدند، اما پاک‌سازی سوابق نصب ناموفق بود. این مورد را دوباره حذف کنید.",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "فایل‌های تصویر پس‌زمینه حذف شدند، اما گالری به‌روز نشد. PosterBoard را دوباره راه‌اندازی کنید یا ری‌اسپرینگ انجام دهید.",
-  "Could not verify wallpaper files before removal.": "بررسی فایل‌های تصویر پس‌زمینه پیش از حذف ناموفق بود."
+  "Could not verify wallpaper files before removal.": "بررسی فایل‌های تصویر پس‌زمینه پیش از حذف ناموفق بود.",
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "فایل هنگام خواندن تغییر کرد: %@. اندازه مورد انتظار %lld بایت، مقدار خوانده‌شده %lld بایت."
 }

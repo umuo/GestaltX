@@ -537,5 +537,6 @@
   "Could not remove wallpaper files.": "배경화면 파일을 제거하지 못했습니다.",
   "Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.": "배경화면 파일은 제거했지만 설치 기록 정리에 실패했습니다. 이 항목을 다시 제거하세요.",
   "Wallpaper files were removed, but the gallery could not refresh. Restart PosterBoard or respring.": "배경화면 파일은 제거했지만 갤러리를 새로 고치지 못했습니다. PosterBoard를 다시 시작하거나 리스프링하세요.",
-  "Could not verify wallpaper files before removal.": "제거 전 배경화면 파일을 확인하지 못했습니다."
+  "Could not verify wallpaper files before removal.": "제거 전 배경화면 파일을 확인하지 못했습니다.",
+  "File changed while reading: %@. Expected %lld bytes, read %lld bytes.": "읽는 동안 파일이 변경되었습니다: %@. 예상 %lld 바이트, 읽은 크기 %lld 바이트."
 }

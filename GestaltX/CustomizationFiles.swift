@@ -2,6 +2,7 @@
 import Foundation
 import CryptoKit
 import ZIPFoundation
+import Darwin
 
 struct CustomizationFailure: LocalizedError {
     let key: String
@@ -47,16 +48,44 @@ enum CustomizationFiles {
         return next
     }
     static func read(_ url: URL) throws -> Data {
-        let values = try url.resourceValues(forKeys: [.isRegularFileKey, .isSymbolicLinkKey, .fileSizeKey])
-        guard values.isRegularFile == true, values.isSymbolicLink != true,
-              let size = values.fileSize, size >= 0, size <= maximumFile else {
+        // Read metadata from the opened descriptor, not URL resource caches.
+        // O_NOFOLLOW also closes the final-component symlink race.
+        let fd = url.withUnsafeFileSystemRepresentation { path -> Int32 in
+            guard let path else { return -1 }
+            return Darwin.open(path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+        }
+        guard fd >= 0 else { throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno)) }
+        let handle = FileHandle(fileDescriptor: fd, closeOnDealloc: true)
+        defer { try? handle.close() }
+        var before = stat()
+        guard fstat(fd, &before) == 0 else { throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno)) }
+        guard (before.st_mode & S_IFMT) == S_IFREG,
+              before.st_size >= 0, before.st_size <= Int64(maximumFile) else {
             throw CustomizationFailure("The archive is invalid or exceeds the size limit.")
         }
-        let handle = try FileHandle(forReadingFrom: url)
-        defer { try? handle.close() }
-        guard let data = try handle.read(upToCount: maximumFile + 1), data.count == size else {
-            throw CustomizationFailure("The files changed. Read again before applying.")
+        let data = try readChunks(limit: maximumFile) { try handle.read(upToCount: $0) }
+        var after = stat()
+        guard fstat(fd, &after) == 0 else { throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno)) }
+        guard data.count == Int(before.st_size), before.st_size == after.st_size,
+              before.st_mtimespec.tv_sec == after.st_mtimespec.tv_sec,
+              before.st_mtimespec.tv_nsec == after.st_mtimespec.tv_nsec,
+              before.st_ctimespec.tv_sec == after.st_ctimespec.tv_sec,
+              before.st_ctimespec.tv_nsec == after.st_ctimespec.tv_nsec else {
+            let message = String(format: L("File changed while reading: %@. Expected %lld bytes, read %lld bytes."),
+                                 url.lastPathComponent, before.st_size, Int64(data.count))
+            throw NSError(domain: "GestaltX.FileRead", code: 1, userInfo: [NSLocalizedDescriptionKey: message])
         }
+        return data
+    }
+    static func readChunks(limit: Int, next: (Int) throws -> Data?) throws -> Data {
+        var data = Data()
+        while let chunk = try next(min(1024 * 1024, limit - data.count + 1)), !chunk.isEmpty {
+            guard chunk.count <= limit - data.count else {
+                throw CustomizationFailure("The archive is invalid or exceeds the size limit.")
+            }
+            data.append(chunk)
+        }
+        // nil at EOF is a valid zero-byte file; one short read is not EOF.
         return data
     }
     static func tree(_ root: URL) throws -> [String: String] {

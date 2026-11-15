@@ -2,6 +2,7 @@ from pathlib import Path
 import json
 ROOT = Path(__file__).resolve().parents[1]
 TRANSLATIONS = '''
+File changed while reading: %@. Expected %lld bytes, read %lld bytes.	读取时文件发生变化：%@。预期 %lld 字节，实际读取 %lld 字节。
 Could not verify wallpaper files before removal.	移除前校验壁纸文件失败。
 Could not remove wallpaper files.	删除壁纸文件失败。
 Wallpaper files were removed, but installation record cleanup failed. Try removing this entry again.	壁纸文件已移除，但清理安装记录失败。请再次移除此条目。
