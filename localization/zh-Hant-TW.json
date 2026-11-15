@@ -524,5 +524,9 @@
   "Imported Wallpaper Packs": "已匯入的背景圖片套件",
   "Includes installed wallpapers whose imported packs were deleted from GestaltX.": "包含匯入套件已從 GestaltX 刪除、但仍安裝在系統中的背景圖片。",
   "Switch to another wallpaper before removing this pack.": "移除此套件前，請先切換至其他背景圖片。",
-  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "背景圖片已移除。若圖庫仍有顯示，請重新啟動 PosterBoard 或執行重新載入桌面。"
+  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "背景圖片已移除。若圖庫仍有顯示，請重新啟動 PosterBoard 或執行重新載入桌面。",
+  "Preview Wallpaper": "預覽背景圖片",
+  "Delete Imported Pack": "刪除匯入套件",
+  "Preview Unavailable": "暫無封面",
+  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "同名副本的編號不同，請搭配封面和短編號確認要操作的副本。"
 }

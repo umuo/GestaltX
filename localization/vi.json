@@ -524,5 +524,9 @@
   "Imported Wallpaper Packs": "Gói hình nền đã nhập",
   "Includes installed wallpapers whose imported packs were deleted from GestaltX.": "Bao gồm hình nền vẫn được cài trong hệ thống sau khi gói nhập đã bị xóa khỏi GestaltX.",
   "Switch to another wallpaper before removing this pack.": "Chuyển sang hình nền khác trước khi gỡ gói này.",
-  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "Đã gỡ hình nền. Nếu vẫn xuất hiện trong thư viện, hãy khởi động lại PosterBoard hoặc respring."
+  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "Đã gỡ hình nền. Nếu vẫn xuất hiện trong thư viện, hãy khởi động lại PosterBoard hoặc respring.",
+  "Preview Wallpaper": "Xem trước hình nền",
+  "Delete Imported Pack": "Xóa gói đã nhập",
+  "Preview Unavailable": "Chưa có ảnh xem trước",
+  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "Các bản sao cùng tên có mã khác nhau. Dùng ảnh và mã ngắn để xác định bản sao cần thao tác."
 }

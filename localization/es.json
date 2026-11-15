@@ -524,5 +524,9 @@
   "Imported Wallpaper Packs": "Paquetes de fondos importados",
   "Includes installed wallpapers whose imported packs were deleted from GestaltX.": "Incluye fondos instalados cuyos paquetes importados se eliminaron de GestaltX.",
   "Switch to another wallpaper before removing this pack.": "Cambia a otro fondo antes de eliminar este paquete.",
-  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "Fondo eliminado. Si sigue en la galería, reinicia PosterBoard o realiza un respring."
+  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "Fondo eliminado. Si sigue en la galería, reinicia PosterBoard o realiza un respring.",
+  "Preview Wallpaper": "Vista previa del fondo",
+  "Delete Imported Pack": "Eliminar paquete importado",
+  "Preview Unavailable": "Vista previa no disponible",
+  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "Las copias con el mismo nombre tienen identificadores distintos. Usa la imagen y el identificador corto para reconocer cada copia."
 }

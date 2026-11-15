@@ -27,8 +27,11 @@ final class CustomizationModel: ObservableObject {
         busy = true; defer { busy = false }
         do { try await operation() } catch is CancellationError {} catch { message = error.localizedDescription }
     }
+    var wallpaperRows: [WallpaperPack] { WallpaperPack.listRows(imported: packs, installed: installedPacks) }
+    func hasImport(_ id: UUID) -> Bool { packs.contains { $0.id == id } }
+    func isInstalled(_ id: UUID) -> Bool { installedPacks.contains { $0.id == id } }
     private func loadPreviews() async {
-        for pack in packs where previews[pack.id] == nil { previews[pack.id] = try? await store.wallpaperPreview(pack.id) }
+        for pack in wallpaperRows where previews[pack.id] == nil { previews[pack.id] = try? await store.wallpaperPreview(pack.id) }
     }
     func loadWallpapers() async {
         await run { try await reloadWallpapers(); await loadPreviews() }
@@ -66,7 +69,7 @@ final class CustomizationModel: ObservableObject {
         await run {
             try await store.deleteImportedWallpaper(pack.id)
             try await reloadWallpapers()
-            previews.removeValue(forKey: pack.id)
+            // The existing cover still identifies the installed copy.
         }
     }
     func open(_ identifier: String) {
@@ -128,46 +131,40 @@ struct WallpapersView: View {
     @State private var pendingApply: WallpaperPack?
     @State private var pendingDelete: WallpaperPack?
     @State private var pendingRemove: WallpaperPack?
+    @State private var previewing: WallpaperPack?
     @State private var presentationOwner = UUID()
     var body: some View {
         List {
             Section {
                 Button { showsImport = true } label: { Label(L("Import Wallpaper"), systemImage: "square.and.arrow.down") }
             } footer: { Text(L("Import a .tendies or .zip wallpaper pack. You can also share it to GestaltX.")) }
-            if model.packs.isEmpty && model.installedPacks.isEmpty {
+            if model.wallpaperRows.isEmpty {
                 Section { ContentUnavailableView(L("No Wallpapers"), systemImage: "photo.on.rectangle.angled") }
-            } else if !model.packs.isEmpty {
-                Section(L("Imported Wallpaper Packs")) {
-                    ForEach(model.packs) { pack in
-                        HStack(spacing: 14) {
-                            preview(pack).frame(width: 70, height: 110).clipShape(RoundedRectangle(cornerRadius: 12))
+            } else {
+                Section {
+                    ForEach(model.wallpaperRows) { pack in
+                        HStack(alignment: .top, spacing: 14) {
+                            Button { previewing = pack } label: {
+                                preview(pack).frame(width: 82, height: 130)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }.buttonStyle(.borderless)
+                                .accessibilityLabel(L("Preview Wallpaper"))
                             VStack(alignment: .leading, spacing: 8) {
                                 Text(pack.name).font(.headline).lineLimit(2)
-                                Label(String(pack.descriptors.count), systemImage: "square.stack").font(.caption).foregroundStyle(.secondary)
-                                if pack.isApplied { Label(L("Applied"), systemImage: "checkmark.circle.fill").font(.caption).foregroundStyle(.green) }
-                                HStack {
-                                    Button(L("Apply")) { pendingApply = pack }.disabled(pack.isApplied)
-                                    Spacer()
-                                    Button(role: .destructive) { pendingDelete = pack } label: { Image(systemName: "trash") }
-                                        .accessibilityLabel(L("Delete"))
-                                }.buttonStyle(.borderless)
-                            }
+                                Text(String(pack.id.uuidString.prefix(8))).font(.caption.monospaced()).foregroundStyle(.secondary)
+                                if model.isInstalled(pack.id) {
+                                    Label(L("Applied"), systemImage: "checkmark.circle.fill").font(.caption).foregroundStyle(.green)
+                                    Button(L("Remove from System"), role: .destructive) { pendingRemove = pack }
+                                } else if model.hasImport(pack.id) {
+                                    Button(L("Apply")) { pendingApply = pack }
+                                }
+                                if model.hasImport(pack.id) {
+                                    Button(L("Delete Imported Pack"), role: .destructive) { pendingDelete = pack }
+                                }
+                            }.buttonStyle(.borderless)
                         }.padding(.vertical, 5)
                     }
-                }
-            }
-            if !model.installedPacks.isEmpty {
-                Section {
-                    ForEach(model.installedPacks) { pack in
-                        HStack {
-                            Label(pack.name, systemImage: "photo.on.rectangle")
-                            Spacer()
-                            Button(L("Remove from System"), role: .destructive) { pendingRemove = pack }
-                                .buttonStyle(.borderless)
-                        }
-                    }
-                } header: { Text(L("Installed Wallpapers")) }
-                  footer: { Text(L("Includes installed wallpapers whose imported packs were deleted from GestaltX.")) }
+                } footer: { Text(L("Same-name copies have different IDs. Use the cover and short ID to identify each copy.")) }
             }
             Section {
                 Button { model.open("com.apple.PosterBoard") } label: { Label(L("Open Wallpaper Gallery"), systemImage: "photo.on.rectangle") }
@@ -178,7 +175,7 @@ struct WallpapersView: View {
         .disabled(model.busy)
         .toolbar { ToolbarItem(placement: .topBarTrailing) { if model.busy { ProgressView() } } }
         .task { await model.loadWallpapers() }
-        .onChange(of: showsImport || pendingApply != nil || pendingDelete != nil || pendingRemove != nil || model.message != nil, initial: true) { _, presenting in
+        .onChange(of: showsImport || pendingApply != nil || pendingDelete != nil || pendingRemove != nil || previewing != nil || model.message != nil, initial: true) { _, presenting in
             model.setPresenting(presenting, owner: presentationOwner)
         }
         .onDisappear { if !showsImport { model.setPresenting(false, owner: presentationOwner) } }
@@ -199,14 +196,36 @@ struct WallpapersView: View {
             Button(L("Cancel"), role: .cancel) { pendingDelete = nil }
             Button(L("Delete"), role: .destructive) { if let pack = pendingDelete { Task { await model.deleteImportedWallpaper(pack) } }; pendingDelete = nil }
         } message: { Text(L("This only deletes the imported pack from GestaltX. Applied wallpapers will be kept.")) }
-        .alert(L("Remove this wallpaper pack?"), isPresented: Binding(get: { pendingRemove != nil }, set: { if !$0 { pendingRemove = nil } })) {
-            Button(L("Cancel"), role: .cancel) { pendingRemove = nil }
-            Button(L("Remove from System"), role: .destructive) {
-                if let pack = pendingRemove { Task { await model.removeWallpaper(pack) } }
-                pendingRemove = nil
+        .sheet(item: $previewing) { pack in
+            NavigationStack {
+                VStack(spacing: 16) {
+                    preview(pack).aspectRatio(430.0 / 932.0, contentMode: .fit)
+                    Text(pack.name).font(.headline)
+                    Text(String(pack.id.uuidString.prefix(8))).font(.caption.monospaced()).foregroundStyle(.secondary)
+                }.padding()
+                    .navigationTitle(L("Preview Wallpaper"))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar { ToolbarItem(placement: .confirmationAction) { Button(L("OK")) { previewing = nil } } }
             }
-        } message: {
-            Text(verbatim: (pendingRemove?.name ?? "") + "\n\n" + L("Only wallpapers added by this pack will be removed.") + "\n" + L("Switch to another wallpaper before removing this pack."))
+        }
+        .sheet(item: $pendingRemove) { pack in
+            NavigationStack {
+                ScrollView {
+                    VStack(spacing: 16) {
+                        preview(pack).frame(width: 150, height: 325).clipShape(RoundedRectangle(cornerRadius: 12))
+                        Text(pack.name).font(.headline)
+                        Text(String(pack.id.uuidString.prefix(8))).font(.caption.monospaced()).foregroundStyle(.secondary)
+                        Text(L("Only wallpapers added by this pack will be removed."))
+                        Text(L("Switch to another wallpaper before removing this pack."))
+                        Button(L("Remove from System"), role: .destructive) {
+                            pendingRemove = nil
+                            Task { await model.removeWallpaper(pack) }
+                        }.buttonStyle(.borderedProminent).tint(.red)
+                    }.padding()
+                }.navigationTitle(L("Remove this wallpaper pack?"))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar { ToolbarItem(placement: .cancellationAction) { Button(L("Cancel")) { pendingRemove = nil } } }
+            }
         }
         .alert(L("GestaltX"), isPresented: Binding(get: { model.message != nil }, set: { if !$0 { model.message = nil } })) {
             Button(L("OK"), role: .cancel) { model.message = nil }

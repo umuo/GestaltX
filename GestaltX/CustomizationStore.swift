@@ -97,6 +97,11 @@ actor CustomizationStore {
                 records.append(data)
                 try CustomizationFiles.saveVerified(records, to: installationRecordsURL(id))
             }
+            // Preserve only a small cover, not the deleted imported assets.
+            // This must never require system-container access for local deletion.
+            if let image = try? importedPreview(pack) {
+                try? CustomizationFiles.saveVerified(image, to: previewCacheURL(id))
+            }
         }
         try fm.removeItem(at: directory)
         log("Wallpapers: deleted the imported pack; applied wallpapers and installation records were kept.")
@@ -134,9 +139,54 @@ actor CustomizationStore {
         log("Wallpapers: imported \(pack.descriptors.count) descriptor(s).")
         return try listWallpapers()
     }
+    private func previewCacheURL(_ id: UUID) throws -> URL {
+        try CustomizationFiles.checked("WallpaperPreviews/\(id.uuidString).plist", in: storage, missing: true)
+    }
+    private func importedPreview(_ pack: WallpaperPack) throws -> Data? {
+        guard let name = pack.preview else { return nil }
+        let url = try CustomizationFiles.checked(name, in: folder(pack.id))
+        return try CustomizationImages.png(CustomizationFiles.read(url), size: 640)
+    }
     func wallpaperPreview(_ id: UUID) throws -> Data? {
-        guard let name = try loadPack(id).preview else { return nil }
-        return try CustomizationFiles.read(CustomizationFiles.checked(name, in: folder(id)))
+        let imported = try? loadPack(id)
+        if let imported, let image = try? importedPreview(imported) { return image }
+        let cache = try previewCacheURL(id)
+        if fm.fileExists(atPath: cache.path),
+           let data = try? PropertyListDecoder().decode(Data.self, from: CustomizationFiles.read(cache)),
+           let image = try? CustomizationImages.png(data, size: 640) { return image }
+        var packs = try installationRecords(id).map { try decodePack($0, id: id) }
+        if let imported { packs.append(imported) }
+        let owned = packs.filter { $0.installedDevice == device && $0.isApplied }
+        guard !owned.isEmpty else { return nil }
+        return try access("com.apple.PosterBoard") { root in
+            for pack in owned {
+                for entry in pack.installations where entry.committed {
+                    let directory = try installationURL(entry.relative, root: root)
+                    // Read only images recorded for this installation. Do not
+                    // follow arbitrary files or scan unrelated system wallpapers.
+                    let images = entry.files.keys.filter { ["png", "jpg", "jpeg", "heic"].contains(URL(fileURLWithPath: $0).pathExtension.lowercased()) }
+                        .sorted {
+                            func priority(_ path: String) -> Int {
+                                let name = URL(fileURLWithPath: path).lastPathComponent.lowercased()
+                                if name.contains("thumbnail") || name.contains("preview") { return 0 }
+                                if name.contains("poster") || name.contains("background") { return 1 }
+                                return 2
+                            }
+                            let a = priority($0), b = priority($1)
+                            return a == b ? $0 < $1 : a < b
+                        }
+                    for name in images {
+                        guard let url = try? CustomizationFiles.checked(name, in: directory),
+                              let size = try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize, size < 12 * 1024 * 1024,
+                              let data = try? CustomizationFiles.read(url), CustomizationFiles.digest(data) == entry.files[name],
+                              let image = try? CustomizationImages.png(data, size: 640) else { continue }
+                        try? CustomizationFiles.saveVerified(image, to: previewCacheURL(id))
+                        return image
+                    }
+                }
+            }
+            return nil
+        }
     }
     private func stageURL(_ relative: String, root: URL) throws -> URL {
         let target = try installationURL(relative, root: root)
@@ -266,6 +316,7 @@ actor CustomizationStore {
         }
         let recordsURL = try installationRecordsURL(id)
         if fm.fileExists(atPath: recordsURL.path) { try fm.removeItem(at: recordsURL) }
+        if let cache = try? previewCacheURL(id), fm.fileExists(atPath: cache.path) { try? fm.removeItem(at: cache) }
         if hasImport { try fm.removeItem(at: directory) }
         log("Wallpapers: removed only this pack's tracked additions.")
         return try listWallpapers()

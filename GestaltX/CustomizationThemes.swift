@@ -32,6 +32,16 @@ struct WallpaperPack: Identifiable, Codable, Sendable {
     var installations: [WallpaperInstallation] = []
     var installedDevice: String?
     var isApplied: Bool { !installations.isEmpty }
+    static func listRows(imported: [WallpaperPack], installed: [WallpaperPack]) -> [WallpaperPack] {
+        var rows = Dictionary(uniqueKeysWithValues: imported.map { ($0.id, $0) })
+        for pack in installed where rows[pack.id] == nil { rows[pack.id] = pack }
+        // Names and thumbnails do not establish ownership. Keep distinct IDs
+        // separate even when the same file was imported more than once.
+        return rows.values.sorted {
+            let order = $0.name.localizedStandardCompare($1.name)
+            return order == .orderedSame ? $0.id.uuidString < $1.id.uuidString : order == .orderedAscending
+        }
+    }
 }
 
 enum WallpaperPackages {

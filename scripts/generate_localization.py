@@ -2,6 +2,10 @@ from pathlib import Path
 import json
 ROOT = Path(__file__).resolve().parents[1]
 TRANSLATIONS = '''
+Preview Wallpaper	预览壁纸
+Delete Imported Pack	删除导入包
+Preview Unavailable	暂无封面
+Same-name copies have different IDs. Use the cover and short ID to identify each copy.	同名副本的编号不同，请结合封面和短编号确认要操作的副本。
 Remove from System	从系统移除
 Installed Wallpapers	已安装到系统
 Imported Wallpaper Packs	已导入的壁纸包

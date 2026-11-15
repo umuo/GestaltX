@@ -524,5 +524,9 @@
   "Imported Wallpaper Packs": "بسته‌های پس‌زمینه واردشده",
   "Includes installed wallpapers whose imported packs were deleted from GestaltX.": "شامل تصاویر پس‌زمینه نصب‌شده‌ای است که بسته واردشده آن‌ها از GestaltX حذف شده است.",
   "Switch to another wallpaper before removing this pack.": "پیش از حذف این بسته، تصویر پس‌زمینه دیگری را انتخاب کنید.",
-  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "تصویر پس‌زمینه حذف شد. اگر همچنان در گالری نمایش داده می‌شود، PosterBoard را دوباره راه‌اندازی کنید یا ری‌اسپرینگ انجام دهید."
+  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "تصویر پس‌زمینه حذف شد. اگر همچنان در گالری نمایش داده می‌شود، PosterBoard را دوباره راه‌اندازی کنید یا ری‌اسپرینگ انجام دهید.",
+  "Preview Wallpaper": "پیش‌نمایش تصویر پس‌زمینه",
+  "Delete Imported Pack": "حذف بسته واردشده",
+  "Preview Unavailable": "پیش‌نمایش موجود نیست",
+  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "نسخه‌های هم‌نام شناسه‌های متفاوتی دارند. برای تشخیص هر نسخه از تصویر و شناسه کوتاه استفاده کنید."
 }

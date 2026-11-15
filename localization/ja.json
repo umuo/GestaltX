@@ -524,5 +524,9 @@
   "Imported Wallpaper Packs": "読み込み済みの壁紙パック",
   "Includes installed wallpapers whose imported packs were deleted from GestaltX.": "GestaltX から読み込み済みパックを削除した後も、システムに残っている壁紙を含みます。",
   "Switch to another wallpaper before removing this pack.": "このパックを削除する前に、別の壁紙に切り替えてください。",
-  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "壁紙を削除しました。ギャラリーに残る場合は、PosterBoard またはホーム画面を再起動してください。"
+  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "壁紙を削除しました。ギャラリーに残る場合は、PosterBoard またはホーム画面を再起動してください。",
+  "Preview Wallpaper": "壁紙をプレビュー",
+  "Delete Imported Pack": "読み込んだパックを削除",
+  "Preview Unavailable": "プレビューなし",
+  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "同名のコピーでも識別番号は異なります。画像と短い識別番号で対象を確認してください。"
 }

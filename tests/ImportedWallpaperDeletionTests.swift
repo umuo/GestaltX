@@ -50,6 +50,7 @@ import Foundation
         try await failedRecordWrite(root.appendingPathComponent("FailedRecordWrite"))
         try await repeatedImport(root.appendingPathComponent("RepeatedImport"))
         try await refreshFailure(root.appendingPathComponent("RefreshFailure"))
+        try await coversAndRows(root.appendingPathComponent("CoversAndRows"))
         try await links(root.appendingPathComponent("Links"))
         print("Imported wallpaper deletion tests passed: local-only deletion, changed device/content, exact manifests, durable failures, archived uninstall, repeated UUIDs, partial installs and symlink containment.")
     }
@@ -186,6 +187,44 @@ import Foundation
         try require(removed.isEmpty, "Refresh retry did not complete removal")
         let merged = try PropertyListSerialization.propertyList(from: Data(contentsOf: prefs), format: nil) as! [String: Any]
         try require(merged["unrelated"] as? String == "keep", "Gallery refresh replaced unrelated preferences")
+    }
+    static func coversAndRows(_ storage: URL) async throws {
+        let poster = storage.appendingPathComponent("FakePosterBoard")
+        let relative = "Library/Application Support/PRBPosterExtensionDataStore/61/Extensions/com.apple.WallpaperKit.CollectionsPoster/descriptors/\(UUID().uuidString)"
+        let target = poster.appendingPathComponent(relative)
+        try fm.createDirectory(at: target, withIntermediateDirectories: true)
+        let png = Data(base64Encoded: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1sAAAAASUVORK5CYII=")!
+        let cover = try CustomizationImages.png(png, size: 640)
+        let file = target.appendingPathComponent("poster.png")
+        try cover.write(to: file)
+        let pack = WallpaperPack(id: UUID(), name: "Same name", descriptors: [], preview: "Preview.png",
+                                 installations: [.init(relative: relative, files: try CustomizationFiles.tree(target), committed: true)],
+                                 installedDevice: "original-device")
+        _ = try makeImport(pack, storage: storage)
+        try cover.write(to: importFolder(pack, storage: storage).appendingPathComponent("Preview.png"))
+        let store = CustomizationStore(storage: storage, device: "original-device", resolver: { _ in poster })
+        let rows = WallpaperPack.listRows(imported: [pack], installed: [pack])
+        try require(rows.count == 1, "The same import and installation appeared twice")
+        let copy = WallpaperPack(id: UUID(), name: pack.name, descriptors: [], installations: pack.installations)
+        try require(WallpaperPack.listRows(imported: [pack, copy], installed: [pack]).count == 2,
+                    "Same-name installations were merged, making targeted removal ambiguous")
+        try await store.deleteImportedWallpaper(pack.id)
+        let cached = try await localStore(storage).wallpaperPreview(pack.id)
+        try require(cached != nil, "Deleting imported assets lost the cover or required system access")
+        let cache = storage.appendingPathComponent("WallpaperPreviews/\(pack.id.uuidString).plist")
+        try fm.removeItem(at: cache)
+        let recovered = try await store.wallpaperPreview(pack.id)
+        try require(recovered != nil, "A previously deleted import could not recover its installed cover")
+        try fm.removeItem(at: cache)
+        try Data("changed image".utf8).write(to: file)
+        let changed = try await store.wallpaperPreview(pack.id)
+        try require(changed == nil, "An unverified changed image was displayed as this installation's cover")
+        let foreign = try await localStore(storage, device: "other-device").wallpaperPreview(pack.id)
+        try require(foreign == nil, "A foreign installation triggered system-container access for its cover")
+        try cover.write(to: file)
+        _ = try await store.wallpaperPreview(pack.id)
+        _ = try await store.removeWallpaper(pack.id)
+        try require(!fm.fileExists(atPath: cache.path), "Uninstalled wallpaper left a stale cover cache")
     }
     static func links(_ storage: URL) async throws {
         let outside = storage.appendingPathComponent("Outside")

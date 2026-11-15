@@ -524,5 +524,9 @@
   "Imported Wallpaper Packs": "Импортированные пакеты обоев",
   "Includes installed wallpapers whose imported packs were deleted from GestaltX.": "Включает установленные обои, импортированные пакеты которых были удалены из GestaltX.",
   "Switch to another wallpaper before removing this pack.": "Перед удалением этого пакета переключитесь на другие обои.",
-  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "Обои удалены. Если они остаются в галерее, перезапустите PosterBoard или выполните респринг."
+  "Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.": "Обои удалены. Если они остаются в галерее, перезапустите PosterBoard или выполните респринг.",
+  "Preview Wallpaper": "Предпросмотр обоев",
+  "Delete Imported Pack": "Удалить импортированный пакет",
+  "Preview Unavailable": "Нет предпросмотра",
+  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "У копий с одинаковым названием разные идентификаторы. Используйте обложку и короткий идентификатор для выбора копии."
 }
