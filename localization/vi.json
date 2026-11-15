@@ -528,5 +528,10 @@
   "Preview Wallpaper": "Xem trước hình nền",
   "Delete Imported Pack": "Xóa gói đã nhập",
   "Preview Unavailable": "Chưa có ảnh xem trước",
-  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "Các bản sao cùng tên có mã khác nhau. Dùng ảnh và mã ngắn để xác định bản sao cần thao tác."
+  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "Các bản sao cùng tên có mã khác nhau. Dùng ảnh và mã ngắn để xác định bản sao cần thao tác.",
+  "Verify Installation": "Xác minh cài đặt",
+  "Installation verified. You can now remove this wallpaper.": "Đã xác minh cài đặt. Bạn có thể gỡ hình nền này.",
+  "Installation records need verification. Use Verify Installation before removing this wallpaper.": "Cần xác minh bản ghi cài đặt. Hãy xác minh cài đặt trước khi gỡ hình nền này.",
+  "No matching installed wallpaper was found. Installation records were kept.": "Không tìm thấy hình nền đã cài phù hợp. Đã giữ lại bản ghi cài đặt.",
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "Xác minh các tệp đã ghi sau khi ký lại. Thao tác này không xóa hình nền."
 }

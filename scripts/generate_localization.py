@@ -2,6 +2,11 @@ from pathlib import Path
 import json
 ROOT = Path(__file__).resolve().parents[1]
 TRANSLATIONS = '''
+Verify Installation	重新验证安装
+Installation verified. You can now remove this wallpaper.	安装记录已验证，现在可以移除此壁纸。
+Installation records need verification. Use Verify Installation before removing this wallpaper.	安装记录需要重新验证。请先点击“重新验证安装”，再移除此壁纸。
+No matching installed wallpaper was found. Installation records were kept.	未找到匹配的已安装壁纸，已保留安装记录。
+Verifies the recorded files after re-signing. This does not delete wallpapers.	重签后核对已记录的文件，此操作不会删除壁纸。
 Preview Wallpaper	预览壁纸
 Delete Imported Pack	删除导入包
 Preview Unavailable	暂无封面

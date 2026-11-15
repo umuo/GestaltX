@@ -51,6 +51,7 @@ import Foundation
         try await repeatedImport(root.appendingPathComponent("RepeatedImport"))
         try await refreshFailure(root.appendingPathComponent("RefreshFailure"))
         try await coversAndRows(root.appendingPathComponent("CoversAndRows"))
+        try await reverifyAfterResigning(root.appendingPathComponent("Reverify"))
         try await links(root.appendingPathComponent("Links"))
         print("Imported wallpaper deletion tests passed: local-only deletion, changed device/content, exact manifests, durable failures, archived uninstall, repeated UUIDs, partial installs and symlink containment.")
     }
@@ -225,6 +226,54 @@ import Foundation
         _ = try await store.wallpaperPreview(pack.id)
         _ = try await store.removeWallpaper(pack.id)
         try require(!fm.fileExists(atPath: cache.path), "Uninstalled wallpaper left a stale cover cache")
+    }
+    static func reverifyAfterResigning(_ storage: URL) async throws {
+        let poster = storage.appendingPathComponent("FakePosterBoard")
+        let relative = "Library/Application Support/PRBPosterExtensionDataStore/61/Extensions/com.apple.WallpaperKit.CollectionsPoster/descriptors/\(UUID().uuidString)"
+        let target = poster.appendingPathComponent(relative)
+        try fm.createDirectory(at: target, withIntermediateDirectories: true)
+        let file = target.appendingPathComponent("Wallpaper.bin")
+        let original = Data("owned wallpaper".utf8)
+        try original.write(to: file)
+        let pack = WallpaperPack(id: UUID(), name: "Re-signed", descriptors: [],
+                                 installations: [.init(relative: relative, files: try CustomizationFiles.tree(target), committed: true)],
+                                 installedDevice: "previous-signature")
+        let oldManifest = try makeImport(pack, storage: storage)
+        let oldStore = CustomizationStore(storage: storage, device: "previous-signature", resolver: { _ in poster })
+        try await oldStore.deleteImportedWallpaper(pack.id)
+        // Keep a live import with the same UUID as well as its archived snapshot.
+        _ = try makeImport(pack, storage: storage)
+        let current = CustomizationStore(storage: storage, device: "new-signature", resolver: { _ in poster })
+        try await rejects { _ = try await current.removeWallpaper(pack.id) }
+        try Data("changed outside app".utf8).write(to: file)
+        try await rejects { try await current.verifyWallpaperInstallation(pack.id) }
+        let unchanged = try PropertyListDecoder().decode([Data].self, from: Data(contentsOf: recordsURL(pack.id, storage: storage)))
+        try require(unchanged == [oldManifest], "Failed verification changed the archived binding")
+        try original.write(to: file)
+        let before = try CustomizationFiles.tree(poster)
+        try await current.verifyWallpaperInstallation(pack.id)
+        try require(try CustomizationFiles.tree(poster) == before, "Verification modified system files")
+        let installed = try await current.listInstalledWallpapers()
+        try require(installed.count == 1 && installed[0].installedDevice == "new-signature", "Verified binding was not updated")
+        let snapshots = try PropertyListDecoder().decode([Data].self, from: Data(contentsOf: recordsURL(pack.id, storage: storage)))
+        for data in snapshots + [try Data(contentsOf: importFolder(pack, storage: storage).appendingPathComponent("Pack.plist"))] {
+            let plist = try PropertyListSerialization.propertyList(from: data, format: nil) as! [String: Any]
+            try require(plist["futureInstallationMetadata"] != nil, "Verification discarded unknown manifest fields")
+        }
+        // Removal must still check the bytes again after a successful verification.
+        try Data("changed after verification".utf8).write(to: file)
+        try await rejects { _ = try await current.removeWallpaper(pack.id) }
+        try original.write(to: file)
+        let prefsPath = "Library/Preferences/com.apple.PosterBoard.unprotectedUserDefaults.plist"
+        try CustomizationFileTransaction(root: poster, storage: storage.appendingPathComponent("PosterBoardDefaults"), device: "previous-signature")
+            .replace([prefsPath: PropertyListSerialization.data(fromPropertyList: ["keep": true], format: .binary, options: 0)])
+        _ = try await current.removeWallpaper(pack.id)
+        try require(!fm.fileExists(atPath: target.path), "Reverified wallpaper could not be removed")
+        let prefs = try PropertyListSerialization.propertyList(from: Data(contentsOf: poster.appendingPathComponent(prefsPath)), format: nil) as! [String: Any]
+        try require(prefs["keep"] as? Bool == true, "Gallery refresh lost unrelated settings after re-signing")
+        // A record alone is not enough to adopt a nonexistent installation.
+        _ = try makeImport(pack, storage: storage)
+        try await rejects { try await current.verifyWallpaperInstallation(pack.id) }
     }
     static func links(_ storage: URL) async throws {
         let outside = storage.appendingPathComponent("Outside")

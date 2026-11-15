@@ -528,5 +528,10 @@
   "Preview Wallpaper": "Vista previa del fondo",
   "Delete Imported Pack": "Eliminar paquete importado",
   "Preview Unavailable": "Vista previa no disponible",
-  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "Las copias con el mismo nombre tienen identificadores distintos. Usa la imagen y el identificador corto para reconocer cada copia."
+  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "Las copias con el mismo nombre tienen identificadores distintos. Usa la imagen y el identificador corto para reconocer cada copia.",
+  "Verify Installation": "Verificar instalación",
+  "Installation verified. You can now remove this wallpaper.": "Instalación verificada. Ya puedes eliminar este fondo.",
+  "Installation records need verification. Use Verify Installation before removing this wallpaper.": "Los registros requieren verificación. Verifica la instalación antes de eliminar este fondo.",
+  "No matching installed wallpaper was found. Installation records were kept.": "No se encontró una instalación coincidente. Se conservaron los registros.",
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "Verifica los archivos registrados tras volver a firmar. No elimina fondos."
 }

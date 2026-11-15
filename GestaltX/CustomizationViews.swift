@@ -65,6 +65,16 @@ final class CustomizationModel: ObservableObject {
             message = L("Wallpaper removed. If it remains in the gallery, restart PosterBoard or respring.")
         }
     }
+    func verifyInstallation(_ pack: WallpaperPack) async -> String {
+        guard !busy else { return "" }
+        busy = true; defer { busy = false }
+        do {
+            try await store.verifyWallpaperInstallation(pack.id)
+            try await reloadWallpapers()
+            await loadPreviews()
+            return L("Installation verified. You can now remove this wallpaper.")
+        } catch { return error.localizedDescription }
+    }
     func deleteImportedWallpaper(_ pack: WallpaperPack) async {
         await run {
             try await store.deleteImportedWallpaper(pack.id)
@@ -132,6 +142,7 @@ struct WallpapersView: View {
     @State private var pendingDelete: WallpaperPack?
     @State private var pendingRemove: WallpaperPack?
     @State private var previewing: WallpaperPack?
+    @State private var verificationMessage: String?
     @State private var presentationOwner = UUID()
     var body: some View {
         List {
@@ -154,7 +165,7 @@ struct WallpapersView: View {
                                 Text(String(pack.id.uuidString.prefix(8))).font(.caption.monospaced()).foregroundStyle(.secondary)
                                 if model.isInstalled(pack.id) {
                                     Label(L("Applied"), systemImage: "checkmark.circle.fill").font(.caption).foregroundStyle(.green)
-                                    Button(L("Remove from System"), role: .destructive) { pendingRemove = pack }
+                                    Button(L("Remove from System"), role: .destructive) { verificationMessage = nil; pendingRemove = pack }
                                 } else if model.hasImport(pack.id) {
                                     Button(L("Apply")) { pendingApply = pack }
                                 }
@@ -217,10 +228,17 @@ struct WallpapersView: View {
                         Text(String(pack.id.uuidString.prefix(8))).font(.caption.monospaced()).foregroundStyle(.secondary)
                         Text(L("Only wallpapers added by this pack will be removed."))
                         Text(L("Switch to another wallpaper before removing this pack."))
+                        Button(L("Verify Installation")) {
+                            Task { verificationMessage = await model.verifyInstallation(pack) }
+                        }.buttonStyle(.bordered).disabled(model.busy)
+                        Text(L("Verifies the recorded files after re-signing. This does not delete wallpapers."))
+                            .font(.caption).foregroundStyle(.secondary)
+                        if model.busy { ProgressView() }
+                        if let verificationMessage { Text(verificationMessage).font(.callout).textSelection(.enabled) }
                         Button(L("Remove from System"), role: .destructive) {
                             pendingRemove = nil
                             Task { await model.removeWallpaper(pack) }
-                        }.buttonStyle(.borderedProminent).tint(.red)
+                        }.buttonStyle(.borderedProminent).tint(.red).disabled(model.busy)
                     }.padding()
                 }.navigationTitle(L("Remove this wallpaper pack?"))
                     .navigationBarTitleDisplayMode(.inline)

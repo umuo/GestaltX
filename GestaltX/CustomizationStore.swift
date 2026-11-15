@@ -271,8 +271,68 @@ actor CustomizationStore {
         // Gester's refresh flag, merged into existing preferences instead of replacing them.
         values["PBF_RESET_FILE_PROTECTIONS"] = true
         let data = try PropertyListSerialization.data(fromPropertyList: values, format: .binary, options: 0)
-        let writer = CustomizationFileTransaction(root: root, storage: storage.appendingPathComponent("PosterBoardDefaults"), device: device)
+        let session = CustomizationFiles.digest(Data(device.utf8))
+        let writer = CustomizationFileTransaction(root: root,
+            storage: storage.appendingPathComponent("PosterBoardDefaults/\(session)"), device: device)
         try writer.replace([path: data], expected: [path: before])
+    }
+    // Re-signing can change identifierForVendor. Never adopt changed system
+    // contents as the new baseline: verify all recorded bytes first, then update
+    // only the local binding, preserving unknown manifest fields atomically.
+    func verifyWallpaperInstallation(_ id: UUID) throws {
+        let importedPath = "Wallpapers/\(id.uuidString)/Pack.plist"
+        let importedURL = try CustomizationFiles.checked(importedPath, in: storage, missing: true)
+        let importedData = fm.fileExists(atPath: importedURL.path) ? try CustomizationFiles.read(importedURL) : nil
+        let archivedURL = try installationRecordsURL(id)
+        let archivedOriginal = fm.fileExists(atPath: archivedURL.path) ? try CustomizationFiles.read(archivedURL) : nil
+        let archived = try archivedOriginal.map { try PropertyListDecoder().decode([Data].self, from: $0) } ?? []
+        let snapshots = archived + (importedData.map { [$0] } ?? [])
+        let packs = try snapshots.map { try decodePack($0, id: id) }
+        guard packs.contains(where: \.isApplied) else {
+            throw CustomizationFailure("No matching installed wallpaper was found. Installation records were kept.")
+        }
+        try access("com.apple.PosterBoard") { root in
+            var matched = false
+            for pack in packs {
+                for entry in pack.installations {
+                    for url in [try installationURL(entry.relative, root: root), try stageURL(entry.relative, root: root)] {
+                        guard fm.fileExists(atPath: url.path) else { continue }
+                        guard try CustomizationFiles.tree(url) == entry.files else {
+                            throw CustomizationFailure("This wallpaper was changed outside GestaltX. It was not removed.")
+                        }
+                        matched = true
+                    }
+                }
+            }
+            guard matched else {
+                throw CustomizationFailure("No matching installed wallpaper was found. Installation records were kept.")
+            }
+        }
+        func rebound(_ data: Data) throws -> Data {
+            let pack = try decodePack(data, id: id)
+            guard pack.isApplied else { return data }
+            guard var plist = try PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any] else {
+                throw CustomizationFailure("The files changed. Read again before applying.")
+            }
+            plist["installedDevice"] = device
+            return try PropertyListSerialization.data(fromPropertyList: plist, format: .binary, options: 0)
+        }
+        var changes: [String: Data] = [:]
+        var expected: [String: CustomizationOriginal] = [:]
+        if let importedData {
+            changes[importedPath] = try rebound(importedData)
+            expected[importedPath] = .init(data: importedData)
+        }
+        if !archived.isEmpty {
+            let recordsPath = "WallpaperInstallations/\(id.uuidString).plist"
+            changes[recordsPath] = try PropertyListEncoder().encode(archived.map { try rebound($0) })
+            expected[recordsPath] = .init(data: archivedOriginal)
+        }
+        let session = CustomizationFiles.digest(Data(device.utf8))
+        try CustomizationFileTransaction(root: storage,
+            storage: storage.appendingPathComponent("WallpaperVerification/\(session)"), device: device)
+            .replace(changes, expected: expected)
+        log("Wallpapers: verified tracked system contents and refreshed the local installation binding; no system wallpaper was changed.")
     }
     func removeWallpaper(_ id: UUID) throws -> [WallpaperPack] {
         let directory = try CustomizationFiles.checked("Wallpapers/\(id.uuidString)", in: storage, missing: true)
@@ -283,7 +343,9 @@ actor CustomizationStore {
         guard !packs.isEmpty else { throw CocoaError(.fileReadNoSuchFile) }
         var installations: [WallpaperInstallation] = []
         for pack in packs where !pack.installations.isEmpty {
-            guard pack.installedDevice == device else { throw CustomizationFailure("The files changed. Read again before applying.") }
+            guard pack.installedDevice == device else {
+                throw CustomizationFailure("Installation records need verification. Use Verify Installation before removing this wallpaper.")
+            }
             for entry in pack.installations {
                 if let index = installations.firstIndex(where: { $0.relative == entry.relative }) {
                     guard installations[index].files == entry.files else {

@@ -528,5 +528,10 @@
   "Preview Wallpaper": "پیش‌نمایش تصویر پس‌زمینه",
   "Delete Imported Pack": "حذف بسته واردشده",
   "Preview Unavailable": "پیش‌نمایش موجود نیست",
-  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "نسخه‌های هم‌نام شناسه‌های متفاوتی دارند. برای تشخیص هر نسخه از تصویر و شناسه کوتاه استفاده کنید."
+  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "نسخه‌های هم‌نام شناسه‌های متفاوتی دارند. برای تشخیص هر نسخه از تصویر و شناسه کوتاه استفاده کنید.",
+  "Verify Installation": "بررسی نصب",
+  "Installation verified. You can now remove this wallpaper.": "نصب تأیید شد. اکنون می‌توانید این تصویر پس‌زمینه را حذف کنید.",
+  "Installation records need verification. Use Verify Installation before removing this wallpaper.": "سوابق نصب باید بررسی شوند. پیش از حذف این تصویر پس‌زمینه، نصب را بررسی کنید.",
+  "No matching installed wallpaper was found. Installation records were kept.": "تصویر پس‌زمینه نصب‌شده مطابق پیدا نشد. سوابق نصب حفظ شدند.",
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "فایل‌های ثبت‌شده را پس از امضای دوباره بررسی می‌کند. تصاویر پس‌زمینه حذف نمی‌شوند."
 }

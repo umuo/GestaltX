@@ -528,5 +528,10 @@
   "Preview Wallpaper": "壁紙をプレビュー",
   "Delete Imported Pack": "読み込んだパックを削除",
   "Preview Unavailable": "プレビューなし",
-  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "同名のコピーでも識別番号は異なります。画像と短い識別番号で対象を確認してください。"
+  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "同名のコピーでも識別番号は異なります。画像と短い識別番号で対象を確認してください。",
+  "Verify Installation": "インストールを再検証",
+  "Installation verified. You can now remove this wallpaper.": "インストールを検証しました。この壁紙を削除できます。",
+  "Installation records need verification. Use Verify Installation before removing this wallpaper.": "インストール記録の検証が必要です。削除前にインストールを再検証してください。",
+  "No matching installed wallpaper was found. Installation records were kept.": "一致するインストール済み壁紙が見つかりません。記録は保持されています。",
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "再署名後に記録されたファイルを検証します。壁紙は削除しません。"
 }

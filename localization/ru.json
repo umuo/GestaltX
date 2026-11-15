@@ -528,5 +528,10 @@
   "Preview Wallpaper": "Предпросмотр обоев",
   "Delete Imported Pack": "Удалить импортированный пакет",
   "Preview Unavailable": "Нет предпросмотра",
-  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "У копий с одинаковым названием разные идентификаторы. Используйте обложку и короткий идентификатор для выбора копии."
+  "Same-name copies have different IDs. Use the cover and short ID to identify each copy.": "У копий с одинаковым названием разные идентификаторы. Используйте обложку и короткий идентификатор для выбора копии.",
+  "Verify Installation": "Проверить установку",
+  "Installation verified. You can now remove this wallpaper.": "Установка проверена. Теперь можно удалить эти обои.",
+  "Installation records need verification. Use Verify Installation before removing this wallpaper.": "Записи установки требуют проверки. Перед удалением обоев проверьте установку.",
+  "No matching installed wallpaper was found. Installation records were kept.": "Соответствующие установленные обои не найдены. Записи сохранены.",
+  "Verifies the recorded files after re-signing. This does not delete wallpapers.": "Проверяет записанные файлы после переподписания. Обои не удаляются."
 }

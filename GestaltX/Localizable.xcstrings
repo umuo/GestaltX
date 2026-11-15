@@ -1,6 +1,326 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "Verify Installation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verify Installation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新验证安装"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verificar instalación"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بررسی نصب"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "インストールを再検証"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설치 다시 확인"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверить установку"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xác minh cài đặt"
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新驗證安裝"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新驗證安裝"
+          }
+        }
+      }
+    },
+    "Installation verified. You can now remove this wallpaper.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installation verified. You can now remove this wallpaper."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安装记录已验证，现在可以移除此壁纸。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instalación verificada. Ya puedes eliminar este fondo."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نصب تأیید شد. اکنون می‌توانید این تصویر پس‌زمینه را حذف کنید."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "インストールを検証しました。この壁紙を削除できます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설치 기록을 확인했습니다. 이제 이 배경화면을 제거할 수 있습니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установка проверена. Теперь можно удалить эти обои."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã xác minh cài đặt. Bạn có thể gỡ hình nền này."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安裝記錄已驗證，現在可以移除此牆紙。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安裝記錄已驗證，現在可以移除此背景圖片。"
+          }
+        }
+      }
+    },
+    "Installation records need verification. Use Verify Installation before removing this wallpaper.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installation records need verification. Use Verify Installation before removing this wallpaper."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安装记录需要重新验证。请先点击“重新验证安装”，再移除此壁纸。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los registros requieren verificación. Verifica la instalación antes de eliminar este fondo."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سوابق نصب باید بررسی شوند. پیش از حذف این تصویر پس‌زمینه، نصب را بررسی کنید."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "インストール記録の検証が必要です。削除前にインストールを再検証してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설치 기록을 확인해야 합니다. 배경화면을 제거하기 전에 설치 다시 확인을 누르세요."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Записи установки требуют проверки. Перед удалением обоев проверьте установку."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cần xác minh bản ghi cài đặt. Hãy xác minh cài đặt trước khi gỡ hình nền này."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安裝記錄需要重新驗證。請先按「重新驗證安裝」，再移除此牆紙。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安裝記錄需要重新驗證。請先點選「重新驗證安裝」，再移除此背景圖片。"
+          }
+        }
+      }
+    },
+    "No matching installed wallpaper was found. Installation records were kept.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matching installed wallpaper was found. Installation records were kept."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到匹配的已安装壁纸，已保留安装记录。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se encontró una instalación coincidente. Se conservaron los registros."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصویر پس‌زمینه نصب‌شده مطابق پیدا نشد. سوابق نصب حفظ شدند."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一致するインストール済み壁紙が見つかりません。記録は保持されています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "일치하는 설치된 배경화면을 찾지 못했습니다. 설치 기록은 보존되었습니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Соответствующие установленные обои не найдены. Записи сохранены."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không tìm thấy hình nền đã cài phù hợp. Đã giữ lại bản ghi cài đặt."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找不到相符的已安裝牆紙，已保留安裝記錄。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找不到相符的已安裝背景圖片，已保留安裝記錄。"
+          }
+        }
+      }
+    },
+    "Verifies the recorded files after re-signing. This does not delete wallpapers.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifies the recorded files after re-signing. This does not delete wallpapers."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重签后核对已记录的文件，此操作不会删除壁纸。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifica los archivos registrados tras volver a firmar. No elimina fondos."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فایل‌های ثبت‌شده را پس از امضای دوباره بررسی می‌کند. تصاویر پس‌زمینه حذف نمی‌شوند."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再署名後に記録されたファイルを検証します。壁紙は削除しません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "재서명 후 기록된 파일을 확인합니다. 배경화면을 삭제하지 않습니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверяет записанные файлы после переподписания. Обои не удаляются."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xác minh các tệp đã ghi sau khi ký lại. Thao tác này không xóa hình nền."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新簽署後核對已記錄的檔案，此操作不會刪除牆紙。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新簽署後核對已記錄的檔案，此操作不會刪除背景圖片。"
+          }
+        }
+      }
+    },
     "Preview Wallpaper": {
       "localizations": {
         "en": {
